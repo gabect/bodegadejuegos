@@ -27,9 +27,19 @@ let wave;
 let enemyDirection;
 let enemySpeed;
 let enemyDrop;
+let enemyFireChance;
+let enemyShotSpeed;
+let enemyAggression;
 let fireCooldown;
 let gameOver;
+let highScore;
+let waveIntroTimer;
+let waveIntroText;
+let boss;
+let elapsedTime;
 let lastTime = 0;
+
+const HIGH_SCORE_KEY = 'pixelGalaxyDefenderHighScore';
 
 // Pixel sprites are tiny maps. X means "draw a square" and . means "empty".
 const playerSprite = [
@@ -43,6 +53,14 @@ const enemySprites = [
   ['.XXX.', 'X.X.X', 'XXXXX', '.X.X.'],
   ['X...X', '.XXX.', 'XXXXX', 'X.X.X'],
   ['.X.X.', 'XXXXX', 'XX.XX', '.X.X.'],
+];
+
+const bossSprite = [
+  '..XXXXXX..',
+  '.XXXXXXXX.',
+  'XXX.XX.XXX',
+  'XXXXXXXXXX',
+  '..XX..XX..',
 ];
 
 function resetGame() {
@@ -62,8 +80,11 @@ function resetGame() {
   score = 0;
   lives = 3;
   wave = 1;
+  highScore = loadHighScore();
   fireCooldown = 0;
   gameOver = false;
+  boss = null;
+  elapsedTime = 0;
   restartButton.classList.remove('show');
   startWave();
 }
@@ -84,14 +105,29 @@ function makeStars() {
 
 function startWave() {
   enemies = [];
-  enemyDirection = 1;
-  enemySpeed = 28 + wave * 11;
-  enemyDrop = 18 + wave * 2;
+  enemyShots = [];
+  playerShots = [];
+  boss = null;
 
-  const rows = Math.min(3 + Math.floor(wave / 2), 5);
-  const cols = 9;
-  const startX = 88;
-  const startY = 74;
+  const difficulty = getWaveDifficulty(wave);
+  enemyDirection = 1;
+  enemySpeed = difficulty.enemySpeed;
+  enemyDrop = difficulty.enemyDrop;
+  enemyFireChance = difficulty.fireChance;
+  enemyShotSpeed = difficulty.shotSpeed;
+  enemyAggression = difficulty.aggression;
+  waveIntroTimer = 2.1;
+  waveIntroText = isBossWave(wave) ? `WAVE ${wave}  -  BOSS WAVE` : `WAVE ${wave}`;
+
+  if (isBossWave(wave)) {
+    startBossWave(difficulty);
+    return;
+  }
+
+  const rows = Math.min(2 + Math.floor((wave + 1) / 2), 5);
+  const cols = wave <= 3 ? 7 : 9;
+  const startX = cols === 7 ? 156 : 88;
+  const startY = 76;
   const gapX = 68;
   const gapY = 54;
 
@@ -100,23 +136,111 @@ function startWave() {
       enemies.push({
         x: startX + col * gapX,
         y: startY + row * gapY,
+        homeY: startY + row * gapY,
         width: 38,
         height: 30,
         sprite: enemySprites[row % enemySprites.length],
         color: row % 2 === 0 ? '#73ff85' : '#ff4fd8',
-        points: (rows - row) * 10,
+        points: (rows - row) * 10 + wave * 2,
+        phase: Math.random() * Math.PI * 2,
+        diving: false,
+        diveCooldown: 2 + Math.random() * 4,
+        diveVy: 0,
       });
     }
+  }
+}
+
+function startBossWave(difficulty) {
+  const bossNumber = Math.floor(wave / 5);
+  boss = {
+    x: WIDTH / 2 - 80,
+    y: 78,
+    width: 160,
+    height: 80,
+    health: 32 + bossNumber * 18,
+    maxHealth: 32 + bossNumber * 18,
+    speed: Math.min(70 + bossNumber * 18, 170),
+    direction: 1,
+    fireTimer: Math.max(1.15 - bossNumber * 0.1, 0.48),
+    patternStep: 0,
+    points: 1000 + wave * 200,
+    color: '#ffe66d',
+  };
+}
+
+function getWaveDifficulty(currentWave) {
+  if (currentWave <= 3) {
+    return {
+      enemySpeed: 34 + currentWave * 8,
+      enemyDrop: 16,
+      fireChance: 0.008 + currentWave * 0.002,
+      shotSpeed: 150 + currentWave * 12,
+      aggression: 0,
+    };
+  }
+
+  if (currentWave <= 7) {
+    return {
+      enemySpeed: 58 + (currentWave - 3) * 12,
+      enemyDrop: 18 + currentWave,
+      fireChance: 0.018 + (currentWave - 4) * 0.004,
+      shotSpeed: 190 + currentWave * 14,
+      aggression: 1,
+    };
+  }
+
+  if (currentWave <= 12) {
+    return {
+      enemySpeed: 105 + (currentWave - 8) * 10,
+      enemyDrop: 25 + currentWave,
+      fireChance: 0.034 + (currentWave - 8) * 0.005,
+      shotSpeed: 250 + currentWave * 12,
+      aggression: 2,
+    };
+  }
+
+  const extraWaves = currentWave - 13;
+  return {
+    enemySpeed: Math.min(150 + extraWaves * 5, 225),
+    enemyDrop: Math.min(38 + extraWaves, 58),
+    fireChance: Math.min(0.055 + extraWaves * 0.0025, 0.095),
+    shotSpeed: Math.min(400 + extraWaves * 10, 560),
+    aggression: 3,
+  };
+}
+
+function isBossWave(currentWave) {
+  return currentWave % 5 === 0;
+}
+
+function loadHighScore() {
+  const savedScore = Number.parseInt(localStorage.getItem(HIGH_SCORE_KEY), 10);
+  return Number.isFinite(savedScore) ? savedScore : 0;
+}
+
+function saveHighScore() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem(HIGH_SCORE_KEY, String(highScore));
   }
 }
 
 function update(delta) {
   if (gameOver) return;
 
+  elapsedTime += delta;
   updateStars(delta);
   updatePlayer(delta);
   updatePlayerShots(delta);
-  updateEnemies(delta);
+
+  if (waveIntroTimer > 0) {
+    waveIntroTimer = Math.max(0, waveIntroTimer - delta);
+  } else {
+    updateEnemies(delta);
+    updateBoss(delta);
+  }
+
   updateEnemyShots(delta);
   updateParticles(delta);
   checkCollisions();
@@ -124,10 +248,8 @@ function update(delta) {
   fireCooldown = Math.max(0, fireCooldown - delta);
   player.invincibleTimer = Math.max(0, player.invincibleTimer - delta);
 
-  if (enemies.length === 0) {
-    wave++;
-    enemyShots = [];
-    startWave();
+  if (enemies.length === 0 && !boss) {
+    advanceWave();
   }
 }
 
@@ -171,6 +293,30 @@ function updateEnemies(delta) {
 
   enemies.forEach((enemy) => {
     enemy.x += enemyDirection * enemySpeed * delta;
+
+    if (enemyAggression >= 1 && !enemy.diving) {
+      enemy.y = enemy.homeY + Math.sin(elapsedTime * 3 + enemy.phase) * (4 + enemyAggression * 3);
+    }
+
+    if (enemyAggression >= 2) {
+      enemy.diveCooldown -= delta;
+      if (!enemy.diving && enemy.diveCooldown <= 0 && Math.random() < 0.006 * enemyAggression) {
+        enemy.diving = true;
+        enemy.diveVy = 135 + enemyAggression * 35;
+      }
+    }
+
+    if (enemy.diving) {
+      enemy.y += enemy.diveVy * delta;
+      enemy.x += Math.sign(player.x + player.width / 2 - (enemy.x + enemy.width / 2)) * (70 + enemyAggression * 30) * delta;
+      if (enemy.y > HEIGHT + enemy.height) {
+        enemy.y = -enemy.height;
+        enemy.homeY = 76 + Math.random() * 120;
+        enemy.diving = false;
+        enemy.diveCooldown = 2.5 + Math.random() * 4;
+      }
+    }
+
     if (enemy.x < 18 || enemy.x + enemy.width > WIDTH - 18) {
       shouldDrop = true;
     }
@@ -179,20 +325,20 @@ function updateEnemies(delta) {
   if (shouldDrop) {
     enemyDirection *= -1;
     enemies.forEach((enemy) => {
+      enemy.homeY += enemyDrop;
       enemy.y += enemyDrop;
     });
   }
 
-  // Enemy firing chance grows slowly each wave.
-  const fireChance = Math.min(0.018 + wave * 0.004, 0.05);
-  if (enemies.length > 0 && Math.random() < fireChance) {
+  if (enemies.length > 0 && Math.random() < enemyFireChance) {
     const shooter = enemies[Math.floor(Math.random() * enemies.length)];
     enemyShots.push({
       x: shooter.x + shooter.width / 2 - 3,
       y: shooter.y + shooter.height,
       width: 6,
       height: 16,
-      speed: 190 + wave * 18,
+      speed: enemyShotSpeed,
+      vx: enemyAggression >= 2 ? (Math.random() - 0.5) * 80 : 0,
     });
   }
 
@@ -201,11 +347,70 @@ function updateEnemies(delta) {
   }
 }
 
+function updateBoss(delta) {
+  if (!boss) return;
+
+  boss.x += boss.direction * boss.speed * delta;
+  boss.y = 76 + Math.sin(elapsedTime * (1.4 + wave * 0.04)) * 18;
+  if (boss.x < 26 || boss.x + boss.width > WIDTH - 26) {
+    boss.direction *= -1;
+    boss.x = clamp(boss.x, 26, WIDTH - boss.width - 26);
+  }
+
+  boss.fireTimer -= delta;
+  if (boss.fireTimer <= 0) {
+    fireBossPattern();
+    const bossNumber = Math.floor(wave / 5);
+    boss.fireTimer = Math.max(1.15 - bossNumber * 0.1, 0.48);
+  }
+}
+
+function fireBossPattern() {
+  const centerX = boss.x + boss.width / 2;
+  const baseY = boss.y + boss.height - 4;
+  const bulletSpeed = Math.min(170 + wave * 18, 500);
+  const pattern = boss.patternStep % 3;
+
+  if (pattern === 0) {
+    [-140, -70, 0, 70, 140].forEach((vx) => addEnemyShot(centerX, baseY, vx, bulletSpeed));
+  } else if (pattern === 1) {
+    for (let i = -3; i <= 3; i++) {
+      addEnemyShot(centerX + i * 18, baseY, i * 34, bulletSpeed * 0.92);
+    }
+  } else {
+    const aim = clamp((player.x + player.width / 2 - centerX) * 0.7, -180, 180);
+    [-60, 0, 60].forEach((offset) => addEnemyShot(centerX, baseY, aim + offset, bulletSpeed));
+  }
+
+  boss.patternStep++;
+}
+
+function addEnemyShot(x, y, vx, speed) {
+  enemyShots.push({
+    x: x - 3,
+    y,
+    width: 6,
+    height: 16,
+    speed,
+    vx,
+  });
+}
+
+function advanceWave() {
+  if (wave % 5 === 0) {
+    score += wave * 250;
+    saveHighScore();
+  }
+  wave++;
+  startWave();
+}
+
 function updateEnemyShots(delta) {
   enemyShots.forEach((shot) => {
+    shot.x += (shot.vx || 0) * delta;
     shot.y += shot.speed * delta;
   });
-  enemyShots = enemyShots.filter((shot) => shot.y < HEIGHT + shot.height);
+  enemyShots = enemyShots.filter((shot) => shot.y < HEIGHT + shot.height && shot.x > -40 && shot.x < WIDTH + 40);
 }
 
 function updateParticles(delta) {
@@ -227,8 +432,25 @@ function checkCollisions() {
         playerShots.splice(shotIndex, 1);
         enemies.splice(enemyIndex, 1);
         score += enemy.points;
+        saveHighScore();
         makeExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, enemy.color);
         break;
+      }
+    }
+
+    if (boss && playerShots[shotIndex] && rectsTouch(playerShots[shotIndex], boss)) {
+      playerShots.splice(shotIndex, 1);
+      boss.health--;
+      makeExplosion(
+        boss.x + 20 + Math.random() * (boss.width - 40),
+        boss.y + 16 + Math.random() * (boss.height - 24),
+        '#ffe66d',
+      );
+      if (boss.health <= 0) {
+        score += boss.points;
+        saveHighScore();
+        makeExplosion(boss.x + boss.width / 2, boss.y + boss.height / 2, '#ffe66d');
+        boss = null;
       }
     }
   }
@@ -255,6 +477,7 @@ function loseLife() {
 
   if (lives <= 0) {
     gameOver = true;
+    saveHighScore();
     restartButton.classList.add('show');
   }
 }
@@ -279,8 +502,13 @@ function draw() {
   drawHud();
   drawPlayer();
   drawEnemies();
+  drawBoss();
   drawShots();
   drawParticles();
+
+  if (waveIntroTimer > 0 && !gameOver) {
+    drawWaveIntro();
+  }
 
   if (gameOver) {
     drawGameOver();
@@ -307,6 +535,7 @@ function drawHud() {
   ctx.fillStyle = '#29f5ff';
   ctx.font = '22px Courier New';
   ctx.fillText(`SCORE ${score}`, 22, 32);
+  ctx.fillText(`HI ${highScore}`, 22, 58);
   ctx.fillText(`WAVE ${wave}`, WIDTH / 2 - 52, 32);
   ctx.fillText(`LIVES ${lives}`, WIDTH - 132, 32);
 }
@@ -332,6 +561,23 @@ function drawEnemies() {
   });
 }
 
+function drawBoss() {
+  if (!boss) return;
+
+  drawPixelSprite(bossSprite, boss.x, boss.y, 16, boss.color);
+  ctx.fillStyle = '#ff4fd8';
+  ctx.fillRect(boss.x + 16, boss.y + 34, 22, 10);
+  ctx.fillRect(boss.x + boss.width - 38, boss.y + 34, 22, 10);
+
+  ctx.fillStyle = '#11183c';
+  ctx.fillRect(210, 48, 380, 14);
+  ctx.fillStyle = '#ff4fd8';
+  ctx.fillRect(210, 48, 380 * (boss.health / boss.maxHealth), 14);
+  ctx.strokeStyle = '#ffe66d';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(210, 48, 380, 14);
+}
+
 function drawShots() {
   ctx.fillStyle = '#ffe66d';
   playerShots.forEach((shot) => {
@@ -351,6 +597,21 @@ function drawParticles() {
   });
 }
 
+function drawWaveIntro() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.52)';
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = isBossWave(wave) ? '#ff4fd8' : '#ffe66d';
+  ctx.font = '48px Courier New';
+  ctx.fillText(waveIntroText, WIDTH / 2, HEIGHT / 2 - 12);
+
+  ctx.fillStyle = '#29f5ff';
+  ctx.font = '22px Courier New';
+  ctx.fillText('HIGH SCORE RUN - NO FINAL WAVE', WIDTH / 2, HEIGHT / 2 + 32);
+  ctx.textAlign = 'left';
+}
+
 function drawGameOver() {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.72)';
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -363,7 +624,8 @@ function drawGameOver() {
   ctx.fillStyle = '#29f5ff';
   ctx.font = '24px Courier New';
   ctx.fillText(`Final Score: ${score}`, WIDTH / 2, HEIGHT / 2 - 12);
-  ctx.fillText('Press Enter or tap Restart', WIDTH / 2, HEIGHT / 2 + 28);
+  ctx.fillText(`High Score: ${highScore}`, WIDTH / 2, HEIGHT / 2 + 24);
+  ctx.fillText('Press Enter or tap Restart', WIDTH / 2, HEIGHT / 2 + 64);
   ctx.textAlign = 'left';
 }
 
