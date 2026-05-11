@@ -3,30 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pixel Galaxy Defender - Endless Arcade</title>
+  <title>Retro Arcade Hub</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="game-shell">
-    <header class="title-panel" aria-label="Game title and instructions">
-      <h1>Pixel Galaxy Defender</h1>
-      <p>Endless 1980s arcade waves. Chase the high score, survive boss waves, and restart with <strong>Enter</strong>.</p>
-    </header>
+  <main class="arcade-wall" aria-label="Retro Arcade Hub game selection">
+    <aside class="vertical-sign" aria-label="Arcade neon sign">
+      <span>A</span>
+      <span>R</span>
+      <span>C</span>
+      <span>A</span>
+      <span>D</span>
+      <span>E</span>
+    </aside>
 
-    <section class="screen-wrap" aria-label="Pixel Galaxy Defender game area">
-      <canvas id="gameCanvas" width="800" height="600">
-        Your browser needs HTML5 canvas support to play Pixel Galaxy Defender.
-      </canvas>
-      <button id="restartButton" class="restart-button" type="button">Play Again</button>
+    <section class="hub-panel">
+      <header class="hero-sign">
+        <p class="eyebrow">Local games • Open late</p>
+        <h1>Retro Arcade Hub</h1>
+        <p class="subtitle">Choose Your Game</p>
+      </header>
+
+      <section class="game-grid" aria-label="Available arcade games">
+        <article class="game-card featured-card">
+          <div class="card-tube" aria-hidden="true"></div>
+          <p class="marquee-label">Now Playing</p>
+          <h2>Pixel Galaxy Defender</h2>
+          <p>Endless 8-bit space shooter with boss waves every 5 waves.</p>
+          <a class="play-button" href="games/pixel-galaxy-defender/index.html">Play Game</a>
+        </article>
+
+        <article class="game-card coming-soon" aria-label="Future game coming soon">
+          <div class="card-tube" aria-hidden="true"></div>
+          <p class="marquee-label">Coming Soon</p>
+          <h2>Neon Alley Racer</h2>
+          <p>A hand-built cabinet is warming up behind the counter.</p>
+          <span class="play-button disabled">Coming Soon</span>
+        </article>
+
+        <article class="game-card coming-soon" aria-label="Future game coming soon">
+          <div class="card-tube" aria-hidden="true"></div>
+          <p class="marquee-label">Coming Soon</p>
+          <h2>Token Tower Trials</h2>
+          <p>The marquee is lit, but the coin door still needs a tune-up.</p>
+          <span class="play-button disabled">Coming Soon</span>
+        </article>
+      </section>
     </section>
-
-    <nav class="touch-controls" aria-label="Touch controls">
-      <button id="leftButton" type="button" aria-label="Move left">◀</button>
-      <button id="fireButton" type="button" aria-label="Fire laser">●</button>
-      <button id="rightButton" type="button" aria-label="Move right">▶</button>
-    </nav>
   </main>
-
-  <script src="script.js"></script>
 </body>
 </html>
