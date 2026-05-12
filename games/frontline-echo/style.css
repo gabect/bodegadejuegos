@@ -6,7 +6,7 @@
   --fog: #8b8d78;
   --signal: #e0d39a;
   --danger: #c85f49;
-  --green: #7f9b62;
+  --green: #43ff69;
 }
 
 * {
@@ -150,12 +150,13 @@ canvas {
 
 .briefing {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto auto;
   gap: 18px;
   align-items: center;
   padding: 16px;
 }
 
+.restart-button,
 .back-link {
   justify-self: end;
   display: inline-block;
@@ -163,11 +164,20 @@ canvas {
   border: 2px solid var(--brass);
   color: var(--ink);
   background: var(--brass);
+  font: inherit;
   font-weight: 900;
   text-decoration: none;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
+.restart-button {
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.restart-button:hover,
+.restart-button:focus-visible,
 .back-link:hover,
 .back-link:focus-visible {
   color: var(--signal);
@@ -183,6 +193,7 @@ canvas {
     grid-template-columns: 1fr;
   }
 
+  .restart-button,
   .back-link {
     justify-self: start;
   }
