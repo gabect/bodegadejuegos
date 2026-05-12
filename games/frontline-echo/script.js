@@ -11,7 +11,12 @@
   const FOV = Math.PI / 3;
   const MAX_DEPTH = 18;
   const PLAYER_RADIUS = 0.18;
+  const ENEMY_RADIUS = 0.2;
+  const ENEMY_CHASE_RADIUS = 3.15;
+  const ENEMY_DAMAGE_RADIUS = 0.68;
+  const ENEMY_DAMAGE_PER_SECOND = 18;
   const EXTRACTION_RADIUS = 0.72;
+  const MAX_HEALTH = 100;
 
   const map = [
     "111111111111",
@@ -29,11 +34,18 @@
   ];
 
   const playerStart = { x: 1.6, y: 1.6, angle: 0 };
+  const enemyStart = { x: 9.5, y: 9.5, patrolIndex: 0 };
+  const enemyPatrol = [
+    { x: 9.5, y: 9.5 },
+    { x: 5.5, y: 9.5 },
+    { x: 3.5, y: 9.5 }
+  ];
   const extraction = findExtraction();
 
   const state = {
     mode: "ready",
-    player: { ...playerStart },
+    player: { ...playerStart, health: MAX_HEALTH },
+    enemy: { ...enemyStart },
     keys: new Set(),
     pointerLocked: false,
     won: false,
@@ -49,7 +61,8 @@
   }
 
   function resetGame() {
-    state.player = { ...playerStart };
+    state.player = { ...playerStart, health: MAX_HEALTH };
+    state.enemy = { ...enemyStart };
     state.mode = "playing";
     state.won = false;
     hideOverlay();
@@ -78,13 +91,17 @@
     return map[my][mx] === "1";
   }
 
-  function collides(x, y) {
+  function collidesWithRadius(x, y, radius) {
     return (
-      isWallAt(x - PLAYER_RADIUS, y - PLAYER_RADIUS) ||
-      isWallAt(x + PLAYER_RADIUS, y - PLAYER_RADIUS) ||
-      isWallAt(x - PLAYER_RADIUS, y + PLAYER_RADIUS) ||
-      isWallAt(x + PLAYER_RADIUS, y + PLAYER_RADIUS)
+      isWallAt(x - radius, y - radius) ||
+      isWallAt(x + radius, y - radius) ||
+      isWallAt(x - radius, y + radius) ||
+      isWallAt(x + radius, y + radius)
     );
+  }
+
+  function collides(x, y) {
+    return collidesWithRadius(x, y, PLAYER_RADIUS);
   }
 
   function movePlayer(dx, dy) {
@@ -100,6 +117,63 @@
     while (angle < -Math.PI) angle += Math.PI * 2;
     while (angle > Math.PI) angle -= Math.PI * 2;
     return angle;
+  }
+
+  function moveEnemy(dx, dy) {
+    const e = state.enemy;
+    const nextX = e.x + dx;
+    const nextY = e.y + dy;
+
+    if (!collidesWithRadius(nextX, e.y, ENEMY_RADIUS)) e.x = nextX;
+    if (!collidesWithRadius(e.x, nextY, ENEMY_RADIUS)) e.y = nextY;
+  }
+
+  function hasLineOfSight(from, to) {
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const distance = Math.hypot(dx, dy);
+    const steps = Math.max(1, Math.ceil(distance / 0.12));
+
+    for (let i = 1; i < steps; i++) {
+      const t = i / steps;
+      if (isWallAt(from.x + dx * t, from.y + dy * t)) return false;
+    }
+
+    return true;
+  }
+
+  function updateEnemy(dt) {
+    const e = state.enemy;
+    const p = state.player;
+    const distanceToPlayer = Math.hypot(p.x - e.x, p.y - e.y);
+    const canSeePlayer = distanceToPlayer <= ENEMY_CHASE_RADIUS && hasLineOfSight(e, p);
+    const target = canSeePlayer ? p : enemyPatrol[e.patrolIndex];
+    const dx = target.x - e.x;
+    const dy = target.y - e.y;
+    const distanceToTarget = Math.hypot(dx, dy);
+
+    if (!canSeePlayer && distanceToTarget < 0.18) {
+      e.patrolIndex = (e.patrolIndex + 1) % enemyPatrol.length;
+      return;
+    }
+
+    if (distanceToTarget > 0.02) {
+      const speed = (canSeePlayer ? 0.82 : 0.58) * dt;
+      const step = Math.min(speed, distanceToTarget);
+      moveEnemy((dx / distanceToTarget) * step, (dy / distanceToTarget) * step);
+    }
+
+    if (distanceToPlayer <= ENEMY_DAMAGE_RADIUS && hasLineOfSight(e, p)) {
+      p.health = Math.max(0, p.health - ENEMY_DAMAGE_PER_SECOND * dt);
+      if (p.health <= 0) {
+        state.mode = "gameover";
+        showOverlay(
+          "Game Over",
+          ["The patrol caught you before extraction.", "Press Restart to try the route again."],
+          "Click Restart or press Enter"
+        );
+      }
+    }
   }
 
   function castRay(angle) {
@@ -143,6 +217,9 @@
     const strafeX = Math.cos(p.angle + Math.PI / 2) * (strafe / length);
     const strafeY = Math.sin(p.angle + Math.PI / 2) * (strafe / length);
     movePlayer((forwardX + strafeX) * speed, (forwardY + strafeY) * speed);
+    updateEnemy(dt);
+
+    if (state.mode !== "playing") return;
 
     if (Math.hypot(p.x - extraction.x, p.y - extraction.y) <= EXTRACTION_RADIUS) {
       state.mode = "won";
@@ -192,6 +269,8 @@
   }
 
   function drawWorld() {
+    const zBuffer = new Array(W);
+
     drawSkyAndGround();
     drawExtractionMarker();
 
@@ -199,6 +278,7 @@
       const rayAngle = state.player.angle - FOV / 2 + (column / W) * FOV;
       const hit = castRay(rayAngle);
       const correctedDepth = hit.depth * Math.cos(rayAngle - state.player.angle);
+      zBuffer[column] = correctedDepth;
       const wallHeight = Math.min(H, (H * 0.86) / Math.max(correctedDepth, 0.001));
       const top = H / 2 - wallHeight / 2;
       const shade = Math.max(0.2, 1 - correctedDepth / MAX_DEPTH);
@@ -208,6 +288,54 @@
       ctx.fillStyle = `rgb(${Math.floor((base + textureLine) * shade)}, ${Math.floor((74 + textureLine) * shade)}, ${Math.floor(42 * shade)})`;
       ctx.fillRect(column, top, 1, wallHeight);
     }
+
+    return zBuffer;
+  }
+
+  function drawEnemy(zBuffer) {
+    const e = state.enemy;
+    const dx = e.x - state.player.x;
+    const dy = e.y - state.player.y;
+    const distance = Math.hypot(dx, dy);
+    const relativeAngle = wrapAngle(Math.atan2(dy, dx) - state.player.angle);
+
+    if (Math.abs(relativeAngle) > FOV * 0.72 || distance < 0.1) return;
+
+    const screenX = W / 2 + (relativeAngle / (FOV / 2)) * (W / 2);
+    const height = Math.min(H * 0.78, (H * 0.62) / Math.max(distance, 0.28));
+    const width = height * 0.46;
+    const left = Math.floor(screenX - width / 2);
+    const right = Math.floor(screenX + width / 2);
+    const top = Math.floor(H / 2 - height * 0.46);
+    const bottom = Math.floor(H / 2 + height * 0.54);
+
+    let visible = false;
+
+    for (let x = left; x <= right; x++) {
+      if (x < 0 || x >= W || distance > zBuffer[x] + 0.04) continue;
+      visible = true;
+
+      const t = (x - left) / Math.max(1, right - left);
+      const shade = 0.62 + (1 - Math.abs(t - 0.5) * 2) * 0.38;
+      const red = Math.floor(210 * shade);
+      const green = Math.floor(42 * shade);
+      const blue = Math.floor(36 * shade);
+
+      ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+      ctx.fillRect(x, top, 1, bottom - top);
+
+      if (x % 3 === 0) {
+        ctx.fillStyle = "rgba(60, 10, 8, 0.55)";
+        ctx.fillRect(x, top + height * 0.35, 1, height * 0.18);
+      }
+    }
+
+    if (!visible) return;
+
+    const eyeY = top + height * 0.3;
+    ctx.fillStyle = "#1a0504";
+    ctx.fillRect(screenX - width * 0.2, eyeY, Math.max(1, width * 0.12), Math.max(1, height * 0.04));
+    ctx.fillRect(screenX + width * 0.08, eyeY, Math.max(1, width * 0.12), Math.max(1, height * 0.04));
   }
 
   function drawMinimap() {
@@ -226,6 +354,9 @@
         ctx.fillRect(pad + x * scale, pad + y * scale, scale - 1, scale - 1);
       }
     }
+
+    ctx.fillStyle = "#d12e2e";
+    ctx.fillRect(pad + state.enemy.x * scale - 2, pad + state.enemy.y * scale - 2, 4, 4);
 
     ctx.fillStyle = "#f5e6a8";
     ctx.beginPath();
@@ -251,6 +382,14 @@
     ctx.fillStyle = "#43ff69";
     ctx.fillText(`Distance: ${distance.toFixed(1)}m`, 18, H - 12);
 
+    const health = Math.ceil(state.player.health);
+    ctx.fillStyle = health > 35 ? "#e0d39a" : "#ff5c4d";
+    ctx.fillText(`Health: ${health}`, W - 132, H - 31);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+    ctx.fillRect(W - 134, H - 24, 104, 10);
+    ctx.fillStyle = health > 35 ? "#43ff69" : "#ff5c4d";
+    ctx.fillRect(W - 132, H - 22, Math.max(0, state.player.health), 6);
+
     ctx.strokeStyle = "rgba(224, 211, 154, 0.85)";
     ctx.beginPath();
     ctx.moveTo(W / 2 - 8, H / 2);
@@ -261,7 +400,8 @@
   }
 
   function draw() {
-    drawWorld();
+    const zBuffer = drawWorld();
+    drawEnemy(zBuffer);
     drawMinimap();
     drawHud();
   }
@@ -311,7 +451,7 @@
   showOverlay(
     "Frontline Echo Prototype",
     [
-      "Small flat trench map. No enemies. No weapons. No mission loop.",
+      "Small flat trench map. One red patrol enemy. No weapons. No mission loop.",
       "Move with WASD. Look with mouse after clicking the screen, or use the left and right arrow keys.",
       "Goal: walk into the green extraction zone. Walls block movement."
     ]
