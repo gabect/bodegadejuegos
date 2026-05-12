@@ -7,161 +7,117 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main
-      class="arcade-system"
-      aria-label="Arcade Jungle game-selection dashboard"
-    >
-      <section
-        class="machine-shell"
-        aria-label="Interactive Arcade Jungle game deck"
-      >
-        <div class="ambient-field" aria-hidden="true">
-          <span class="orbit-sprite one"></span>
-          <span class="orbit-sprite two"></span>
-          <span class="orbit-sprite three"></span>
-        </div>
-        <header class="command-bar" aria-label="Arcade system controls">
-          <div class="brand-cluster">
-            <span class="status-pill"
-              ><span class="led coral" aria-hidden="true"></span>Game Lounge
-              Live</span
-            >
-            <div>
-              <p class="eyebrow">Bodega de Juegos // Arcade Jungle</p>
-              <h1>Arcade Jungle</h1>
-            </div>
-          </div>
+    <main class="arcade-room" aria-label="Arcade Jungle game room">
+      <header class="room-sign" aria-label="Arcade Jungle entrance sign">
+        <p class="eyebrow">Bodega de Juegos presents</p>
+        <h1>Arcade Jungle</h1>
+        <p class="subtitle">
+          Step onto the checkerboard floor, pick a cabinet, and press play.
+          Bright marquees, chunky buttons, warm room lights, and clean CRT glow
+          bring the mall-arcade feeling home.
+        </p>
+      </header>
 
-          <div class="system-readout" aria-label="System diagnostics">
-            <span>PIXEL PREVIEW READY</span>
-            <span>INPUT 02MS</span>
-            <span>COIN PLAY READY</span>
-          </div>
-
-          <div class="control-cluster" aria-hidden="true">
-            <span class="signal-dot green"></span>
-            <span class="signal-dot amber"></span>
-            <span class="signal-dot cyan"></span>
-            <span class="control-button">A</span>
-            <span class="control-button secondary">B</span>
-          </div>
-        </header>
-
-        <section
-          class="selector-hero"
-          aria-label="Arcade selector introduction"
-        >
-          <div class="mini-monitor" aria-hidden="true">
-            <div class="monitor-grid"></div>
-            <span class="reticle"></span>
-            <span class="palm-pixel one"></span>
-            <span class="palm-pixel two"></span>
-          </div>
-          <div class="selector-copy">
-            <p class="selector-label">Pick a game</p>
-            <p class="subtitle">
-              A modern-retro arcade lounge for fast play: responsive cards,
-              animated screens, soft cream highlights, and subtle tropical color
-              in a
-              deep green late-night room.
-            </p>
-          </div>
-          <div class="telemetry-bars" aria-hidden="true">
-            <span style="--level: 62%"></span>
-            <span style="--level: 88%"></span>
-            <span style="--level: 44%"></span>
-            <span style="--level: 72%"></span>
-            <span style="--level: 34%"></span>
-            <span style="--level: 94%"></span>
-            <span style="--level: 54%"></span>
-            <span style="--level: 78%"></span>
-          </div>
-        </section>
-
-        <section class="game-grid" aria-label="Available arcade games">
-          <article class="game-card snake-card">
-            <div class="module-topline">
-              <span class="module-id">Module 01</span>
-              <span class="tiny-led"></span>
-            </div>
-            <div class="card-screen snake-preview" aria-hidden="true">
-              <span class="snake-trail"></span>
-              <span class="snake-food"></span>
-            </div>
-            <p class="marquee-label">Jungle Run Ready</p>
+      <section class="cabinet-row" aria-label="Available arcade cabinets">
+        <article class="mini-cabinet snake-cabinet">
+          <div class="cabinet-topper" aria-hidden="true"></div>
+          <div class="marquee-panel">
+            <span class="marquee-kicker">One Player</span>
             <h2>Jungle Snake</h2>
-            <p>Grow through neon foliage. Chain pickups and level up fast.</p>
-            <div class="card-footer">
-              <span class="diagnostic">RUN SYNC // FEED OK</span>
-              <a class="play-button" href="games/jungle-snake/index.html"
-                >Play</a
-              >
+          </div>
+          <div class="monitor-bezel" aria-hidden="true">
+            <div class="crt-screen">
+              <span class="screen-emblem snake-emblem"></span>
             </div>
-          </article>
+          </div>
+          <div class="control-panel">
+            <a class="play-button" href="games/jungle-snake/index.html">Play</a>
+            <div class="button-bank" aria-hidden="true">
+              <span class="arcade-button red"></span>
+              <span class="arcade-button yellow"></span>
+              <span class="arcade-button blue"></span>
+            </div>
+            <div class="coin-details" aria-hidden="true">
+              <span></span><span></span>
+            </div>
+          </div>
+          <p class="cabinet-note">Grow, turn, and chase snacks through a bright jungle maze.</p>
+        </article>
 
-          <article class="game-card reflex-card">
-            <div class="module-topline">
-              <span class="module-id">Module 02</span>
-              <span class="tiny-led"></span>
-            </div>
-            <div class="card-screen reflex-preview" aria-hidden="true">
-              <span class="paddle left"></span>
-              <span class="paddle right"></span>
-              <span class="reflex-ball"></span>
-            </div>
-            <p class="marquee-label">Reaction Circuit Armed</p>
+        <article class="mini-cabinet reflex-cabinet">
+          <div class="cabinet-topper" aria-hidden="true"></div>
+          <div class="marquee-panel">
+            <span class="marquee-kicker">Quick Match</span>
             <h2>Reflex 80s</h2>
-            <p>Keep the ball alive as speed, rhythm, and hazards climb.</p>
-            <div class="card-footer">
-              <span class="diagnostic">PADDLE SYNC // BALL LIVE</span>
-              <a class="play-button" href="games/reflex-80s/index.html">Play</a>
+          </div>
+          <div class="monitor-bezel" aria-hidden="true">
+            <div class="crt-screen">
+              <span class="screen-emblem reflex-emblem"></span>
             </div>
-          </article>
+          </div>
+          <div class="control-panel">
+            <a class="play-button" href="games/reflex-80s/index.html">Play</a>
+            <div class="button-bank" aria-hidden="true">
+              <span class="arcade-button yellow"></span>
+              <span class="arcade-button red"></span>
+              <span class="arcade-button teal"></span>
+            </div>
+            <div class="coin-details" aria-hidden="true">
+              <span></span><span></span>
+            </div>
+          </div>
+          <p class="cabinet-note">Bounce, slide, and keep the room cheering as the pace rises.</p>
+        </article>
 
-          <article class="game-card galaxy-card">
-            <div class="module-topline">
-              <span class="module-id">Module 03</span>
-              <span class="tiny-led"></span>
-            </div>
-            <div class="card-screen galaxy-preview" aria-hidden="true">
-              <span class="starfield"></span>
-              <span class="ship"></span>
-              <span class="laser"></span>
-            </div>
-            <p class="marquee-label">Launch Bay Primed</p>
+        <article class="mini-cabinet galaxy-cabinet">
+          <div class="cabinet-topper" aria-hidden="true"></div>
+          <div class="marquee-panel">
+            <span class="marquee-kicker">High Score</span>
             <h2>Pixel Galaxy Defender</h2>
-            <p>Endless space defense with boss waves every five waves.</p>
-            <div class="card-footer">
-              <span class="diagnostic">STAR SYNC // SHIELD 88%</span>
-              <a
-                class="play-button"
-                href="games/pixel-galaxy-defender/index.html"
-                >Play</a
-              >
+          </div>
+          <div class="monitor-bezel" aria-hidden="true">
+            <div class="crt-screen">
+              <span class="screen-emblem galaxy-emblem"></span>
             </div>
-          </article>
+          </div>
+          <div class="control-panel">
+            <a class="play-button" href="games/pixel-galaxy-defender/index.html">Play</a>
+            <div class="button-bank" aria-hidden="true">
+              <span class="arcade-button blue"></span>
+              <span class="arcade-button red"></span>
+              <span class="arcade-button yellow"></span>
+            </div>
+            <div class="coin-details" aria-hidden="true">
+              <span></span><span></span>
+            </div>
+          </div>
+          <p class="cabinet-note">A colorful score chase with chunky sprites and classic cabinet energy.</p>
+        </article>
 
-          <article class="game-card frontline-card">
-            <div class="module-topline">
-              <span class="module-id">Module 04</span>
-              <span class="tiny-led"></span>
-            </div>
-            <div class="card-screen frontline-preview" aria-hidden="true">
-              <span class="frontline-path"></span>
-              <span class="frontline-player"></span>
-              <span class="frontline-exit"></span>
-            </div>
-            <p class="marquee-label">Tactical Maze Loaded</p>
+        <article class="mini-cabinet echo-cabinet">
+          <div class="cabinet-topper" aria-hidden="true"></div>
+          <div class="marquee-panel">
+            <span class="marquee-kicker">Maze Run</span>
             <h2>Frontline Echo</h2>
-            <p>Navigate the flat arena, dodge patrols, and reach extraction.</p>
-            <div class="card-footer">
-              <span class="diagnostic">MAP SYNC // EXIT LIT</span>
-              <a class="play-button" href="games/frontline-echo/index.html"
-                >Play</a
-              >
+          </div>
+          <div class="monitor-bezel" aria-hidden="true">
+            <div class="crt-screen">
+              <span class="screen-emblem echo-emblem"></span>
             </div>
-          </article>
-        </section>
+          </div>
+          <div class="control-panel">
+            <a class="play-button" href="games/frontline-echo/index.html">Play</a>
+            <div class="button-bank" aria-hidden="true">
+              <span class="arcade-button teal"></span>
+              <span class="arcade-button yellow"></span>
+              <span class="arcade-button red"></span>
+            </div>
+            <div class="coin-details" aria-hidden="true">
+              <span></span><span></span>
+            </div>
+          </div>
+          <p class="cabinet-note">Find the lit goal, avoid roaming blockers, and enjoy a tight maze challenge.</p>
+        </article>
       </section>
     </main>
   </body>
