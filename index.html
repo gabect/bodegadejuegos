@@ -13,24 +13,29 @@
     >
       <section
         class="machine-shell"
-        aria-label="Interactive arcade control deck"
+        aria-label="Interactive Arcade Jungle game deck"
       >
+        <div class="ambient-field" aria-hidden="true">
+          <span class="orbit-sprite one"></span>
+          <span class="orbit-sprite two"></span>
+          <span class="orbit-sprite three"></span>
+        </div>
         <header class="command-bar" aria-label="Arcade system controls">
           <div class="brand-cluster">
             <span class="status-pill"
-              ><span class="led coral" aria-hidden="true"></span>Game Floor
-              Online</span
+              ><span class="led coral" aria-hidden="true"></span>Game Lounge
+              Live</span
             >
             <div>
-              <p class="eyebrow">Bodega de Juegos // Arcade Jungle OS</p>
+              <p class="eyebrow">Bodega de Juegos // Arcade Jungle</p>
               <h1>Arcade Jungle</h1>
             </div>
           </div>
 
           <div class="system-readout" aria-label="System diagnostics">
-            <span>CRT PREVIEW STABLE</span>
-            <span>INPUT LATENCY 02MS</span>
-            <span>COIN BUS READY</span>
+            <span>PIXEL PREVIEW READY</span>
+            <span>INPUT 02MS</span>
+            <span>COIN PLAY READY</span>
           </div>
 
           <div class="control-cluster" aria-hidden="true">
@@ -53,11 +58,12 @@
             <span class="palm-pixel two"></span>
           </div>
           <div class="selector-copy">
-            <p class="selector-label">Choose your cabinet</p>
+            <p class="selector-label">Pick a game</p>
             <p class="subtitle">
-              A clean retro dashboard for quick play: glowing modules, CRT
-              previews, responsive controls, and just enough tropical color to
-              keep the room alive.
+              A modern-retro arcade lounge for fast play: responsive cards,
+              animated screens, soft cream highlights, and subtle tropical color
+              in a
+              deep green late-night room.
             </p>
           </div>
           <div class="telemetry-bars" aria-hidden="true">
@@ -86,7 +92,7 @@
             <h2>Jungle Snake</h2>
             <p>Grow through neon foliage. Chain pickups and level up fast.</p>
             <div class="card-footer">
-              <span class="diagnostic">TEMP 29C // FEED OK</span>
+              <span class="diagnostic">RUN SYNC // FEED OK</span>
               <a class="play-button" href="games/jungle-snake/index.html"
                 >Play</a
               >
@@ -107,7 +113,7 @@
             <h2>Reflex 80s</h2>
             <p>Keep the ball alive as speed, rhythm, and hazards climb.</p>
             <div class="card-footer">
-              <span class="diagnostic">V-SYNC HOT // BALL LIVE</span>
+              <span class="diagnostic">PADDLE SYNC // BALL LIVE</span>
               <a class="play-button" href="games/reflex-80s/index.html">Play</a>
             </div>
           </article>
@@ -126,10 +132,31 @@
             <h2>Pixel Galaxy Defender</h2>
             <p>Endless space defense with boss waves every five waves.</p>
             <div class="card-footer">
-              <span class="diagnostic">WAVE MAP // SHIELD 88%</span>
+              <span class="diagnostic">STAR SYNC // SHIELD 88%</span>
               <a
                 class="play-button"
                 href="games/pixel-galaxy-defender/index.html"
+                >Play</a
+              >
+            </div>
+          </article>
+
+          <article class="game-card frontline-card">
+            <div class="module-topline">
+              <span class="module-id">Module 04</span>
+              <span class="tiny-led"></span>
+            </div>
+            <div class="card-screen frontline-preview" aria-hidden="true">
+              <span class="frontline-path"></span>
+              <span class="frontline-player"></span>
+              <span class="frontline-exit"></span>
+            </div>
+            <p class="marquee-label">Tactical Maze Loaded</p>
+            <h2>Frontline Echo</h2>
+            <p>Navigate the flat arena, dodge patrols, and reach extraction.</p>
+            <div class="card-footer">
+              <span class="diagnostic">MAP SYNC // EXIT LIT</span>
+              <a class="play-button" href="games/frontline-echo/index.html"
                 >Play</a
               >
             </div>
