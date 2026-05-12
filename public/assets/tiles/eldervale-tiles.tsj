@@ -1,0 +1,28 @@
+{
+  "columns": 8,
+  "image": "eldervale-tiles.svg",
+  "imageheight": 64,
+  "imagewidth": 128,
+  "margin": 0,
+  "name": "eldervale-tiles",
+  "spacing": 0,
+  "tilecount": 32,
+  "tiledversion": "1.11.0",
+  "tileheight": 16,
+  "tilewidth": 16,
+  "type": "tileset",
+  "version": "1.10",
+  "tiles": [
+    { "id": 4, "animation": [{ "tileid": 4, "duration": 360 }, { "tileid": 5, "duration": 360 }, { "tileid": 6, "duration": 360 }] },
+    { "id": 5, "animation": [{ "tileid": 5, "duration": 360 }, { "tileid": 6, "duration": 360 }, { "tileid": 4, "duration": 360 }] },
+    { "id": 6, "animation": [{ "tileid": 6, "duration": 360 }, { "tileid": 4, "duration": 360 }, { "tileid": 5, "duration": 360 }] },
+    { "id": 8, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 9, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 10, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 11, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 12, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 13, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 16, "properties": [{ "name": "collides", "type": "bool", "value": true }] },
+    { "id": 18, "properties": [{ "name": "collides", "type": "bool", "value": true }] }
+  ]
+}

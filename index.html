@@ -3,77 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Arcade Jungle</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta
+      name="description"
+      content="Eldervale Crossing is a peaceful 32-bit inspired top-down exploration adventure prototype built with Phaser 3."
+    />
+    <title>Eldervale Crossing</title>
   </head>
   <body>
-    <div class="ambient-bg" aria-hidden="true">
-      <span class="orb orb-one"></span>
-      <span class="orb orb-two"></span>
-      <span class="grid-glow"></span>
+    <noscript>Eldervale Crossing requires JavaScript to run.</noscript>
+    <div id="game-shell">
+      <div id="game-container" aria-label="Eldervale Crossing game canvas"></div>
+      <div id="loading-copy" aria-live="polite">
+        <span>Loading Eldervale Crossing…</span>
+      </div>
     </div>
-
-    <main class="site-shell">
-      <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">Premium indie games</p>
-        <h1 id="page-title">Arcade Jungle</h1>
-        <p class="tagline">A curated collection of fast, focused browser games built for instant play.</p>
-        <a class="primary-cta" href="#games">Explore games</a>
-      </section>
-
-      <section class="games-section" id="games" aria-labelledby="games-title">
-        <div class="section-heading">
-          <p class="eyebrow">Featured games</p>
-          <h2 id="games-title">Choose your next run</h2>
-        </div>
-
-        <div class="game-grid">
-          <article class="game-card snake-card">
-            <a href="games/jungle-snake/index.html" aria-label="Play Jungle Snake">
-              <span class="artwork" aria-hidden="true"></span>
-              <span class="game-title">Jungle Snake</span>
-              <span class="play-link">Play</span>
-            </a>
-          </article>
-
-          <article class="game-card reflex-card">
-            <a href="games/reflex-80s/index.html" aria-label="Play Reflex 80s">
-              <span class="artwork" aria-hidden="true"></span>
-              <span class="game-title">Reflex 80s</span>
-              <span class="play-link">Play</span>
-            </a>
-          </article>
-
-          <article class="game-card galaxy-card">
-            <a href="games/pixel-galaxy-defender/index.html" aria-label="Play Pixel Galaxy Defender">
-              <span class="artwork" aria-hidden="true"></span>
-              <span class="game-title">Pixel Galaxy Defender</span>
-              <span class="play-link">Play</span>
-            </a>
-          </article>
-
-          <article class="game-card echo-card">
-            <a href="games/frontline-echo/index.html" aria-label="Play Frontline Echo">
-              <span class="artwork" aria-hidden="true"></span>
-              <span class="game-title">Frontline Echo</span>
-              <span class="play-link">Play</span>
-            </a>
-          </article>
-        </div>
-      </section>
-    </main>
-
-    <script>
-      const root = document.documentElement;
-
-      window.addEventListener("pointermove", (event) => {
-        root.style.setProperty("--pointer-x", (event.clientX / window.innerWidth - 0.5).toFixed(3));
-        root.style.setProperty("--pointer-y", (event.clientY / window.innerHeight - 0.5).toFixed(3));
-      });
-
-      window.addEventListener("scroll", () => {
-        root.style.setProperty("--scroll-y", (window.scrollY * 0.025).toFixed(2));
-      }, { passive: true });
-    </script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
