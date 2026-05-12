@@ -1,68 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Retro Arcade Hub</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main class="radio-room" aria-label="Retro Arcade Hub game selection">
-    <section class="station-wall" aria-label="Jungle Radio Arcade wall display">
-      <div class="on-air" aria-label="On air sign">
-        <span class="on-air-dot" aria-hidden="true"></span>
-        ON AIR
-      </div>
-
-      <header class="hero-panel">
-        <p class="station-label">Jungle Radio • 88.6 FM • Open Late</p>
-        <h1>Retro Arcade Hub</h1>
-        <p class="subtitle">Broadcasting from the Jungle Radio Arcade</p>
-      </header>
-
-      <section class="equipment-row" aria-label="Arcade and radio details">
-        <div class="radio-console" aria-hidden="true">
-          <div class="meter"></div>
-          <div class="frequency-line"></div>
-          <div class="knob-row">
-            <span></span>
-            <span></span>
-            <span></span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Arcade Hub</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main
+      class="arcade-system"
+      aria-label="Retro Arcade Hub game-selection system"
+    >
+      <section class="machine-shell" aria-label="Powered arcade control deck">
+        <header class="command-bar" aria-label="Arcade status controls">
+          <div class="brand-cluster">
+            <span class="status-pill"
+              ><span class="led red" aria-hidden="true"></span>Live
+              Cabinet</span
+            >
+            <div>
+              <p class="eyebrow">Bodega de Juegos // Selector OS</p>
+              <h1>Retro Arcade Hub</h1>
+            </div>
           </div>
-        </div>
-        <div class="plant-accent" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+
+          <div class="system-readout" aria-label="System diagnostics">
+            <span>CRT SYNC 15.7KHz</span>
+            <span>INPUT LATENCY 02MS</span>
+            <span>COIN BUS READY</span>
+          </div>
+
+          <div class="control-cluster" aria-hidden="true">
+            <span class="signal-dot green"></span>
+            <span class="signal-dot amber"></span>
+            <span class="signal-dot cyan"></span>
+            <span class="control-button">A</span>
+            <span class="control-button secondary">B</span>
+          </div>
+        </header>
+
+        <section
+          class="selector-hero"
+          aria-label="Arcade selector introduction"
+        >
+          <div class="mini-monitor" aria-hidden="true">
+            <div class="monitor-grid"></div>
+            <span class="reticle"></span>
+          </div>
+          <div class="selector-copy">
+            <p class="station-label">Select a powered module</p>
+            <p class="subtitle">
+              Three active cabinets are humming on the floor. Choose a signal
+              and jump straight in.
+            </p>
+          </div>
+          <div class="frequency-stack" aria-hidden="true">
+            <span style="--level: 62%"></span>
+            <span style="--level: 88%"></span>
+            <span style="--level: 44%"></span>
+            <span style="--level: 72%"></span>
+            <span style="--level: 34%"></span>
+            <span style="--level: 94%"></span>
+            <span style="--level: 54%"></span>
+            <span style="--level: 78%"></span>
+          </div>
+        </section>
+
+        <section class="game-grid" aria-label="Available arcade games">
+          <article class="game-card snake-card">
+            <div class="module-topline">
+              <span class="module-id">Module 01</span>
+              <span class="tiny-led"></span>
+            </div>
+            <div class="card-screen snake-preview" aria-hidden="true">
+              <span class="snake-trail"></span>
+              <span class="snake-food"></span>
+            </div>
+            <p class="marquee-label">Jungle Frequency Locked</p>
+            <h2>Jungle Snake</h2>
+            <p>Grow through the jungle. Unlock bigger prey as you level up.</p>
+            <div class="card-footer">
+              <span class="diagnostic">TEMP 29C // FEED OK</span>
+              <a class="play-button" href="games/jungle-snake/index.html"
+                >Play</a
+              >
+            </div>
+          </article>
+
+          <article class="game-card reflex-card">
+            <div class="module-topline">
+              <span class="module-id">Module 02</span>
+              <span class="tiny-led"></span>
+            </div>
+            <div class="card-screen reflex-preview" aria-hidden="true">
+              <span class="paddle left"></span>
+              <span class="paddle right"></span>
+              <span class="reflex-ball"></span>
+            </div>
+            <p class="marquee-label">Reaction Circuit Armed</p>
+            <h2>Reflex 80s</h2>
+            <p>Keep the ball alive as speed and hazards increase.</p>
+            <div class="card-footer">
+              <span class="diagnostic">V-SYNC HOT // BALL LIVE</span>
+              <a class="play-button" href="games/reflex-80s/index.html">Play</a>
+            </div>
+          </article>
+
+          <article class="game-card galaxy-card">
+            <div class="module-topline">
+              <span class="module-id">Module 03</span>
+              <span class="tiny-led"></span>
+            </div>
+            <div class="card-screen galaxy-preview" aria-hidden="true">
+              <span class="starfield"></span>
+              <span class="ship"></span>
+              <span class="laser"></span>
+            </div>
+            <p class="marquee-label">Deep Space Channel</p>
+            <h2>Pixel Galaxy Defender</h2>
+            <p>Endless space defense with boss waves every 5 waves.</p>
+            <div class="card-footer">
+              <span class="diagnostic">WAVE RADAR // SHIELD 88%</span>
+              <a
+                class="play-button"
+                href="games/pixel-galaxy-defender/index.html"
+                >Play</a
+              >
+            </div>
+          </article>
+        </section>
       </section>
-
-      <section class="game-grid" aria-label="Available arcade games">
-        <article class="game-card snake-card">
-          <div class="card-screen" aria-hidden="true"></div>
-          <p class="marquee-label">Marquee 01</p>
-          <h2>Jungle Snake</h2>
-          <p>Grow through the jungle. Unlock bigger prey as you level up.</p>
-          <a class="play-button" href="games/jungle-snake/index.html">Play Game</a>
-        </article>
-
-        <article class="game-card reflex-card">
-          <div class="card-screen" aria-hidden="true"></div>
-          <p class="marquee-label">Marquee 02</p>
-          <h2>Reflex 80s</h2>
-          <p>Keep the ball alive as speed and hazards increase.</p>
-          <a class="play-button" href="games/reflex-80s/index.html">Play Game</a>
-        </article>
-
-        <article class="game-card galaxy-card">
-          <div class="card-screen" aria-hidden="true"></div>
-          <p class="marquee-label">Marquee 03</p>
-          <h2>Pixel Galaxy Defender</h2>
-          <p>Endless space defense with boss waves every 5 waves.</p>
-          <a class="play-button" href="games/pixel-galaxy-defender/index.html">Play Game</a>
-        </article>
-      </section>
-    </section>
-  </main>
-</body>
+    </main>
+  </body>
 </html>
