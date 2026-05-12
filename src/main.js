@@ -1,37 +1,19 @@
-import Phaser from 'phaser';
-import WebFont from 'webfontloader';
-import '../style.css';
-import { BootScene } from './scenes/BootScene.js';
-import { PreloadScene } from './scenes/PreloadScene.js';
-import { WorldScene } from './scenes/WorldScene.js';
-import { InteriorScene } from './scenes/InteriorScene.js';
+const cards = document.querySelectorAll('[data-glow-card]');
 
-const startGame = () => {
-  const config = {
-    type: Phaser.AUTO,
-    parent: 'game-container',
-    backgroundColor: '#101821',
-    pixelArt: true,
-    roundPixels: true,
-    scale: {
-      mode: Phaser.Scale.RESIZE,
-      autoCenter: Phaser.Scale.CENTER_BOTH,
-      width: window.innerWidth,
-      height: window.innerHeight,
-    },
-    physics: {
-      default: 'arcade',
-      arcade: { debug: false, gravity: { y: 0 } },
-    },
-    scene: [BootScene, PreloadScene, WorldScene, InteriorScene],
-  };
+const updateGlowPosition = (event) => {
+  const card = event.currentTarget;
+  const rect = card.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
 
-  new Phaser.Game(config);
+  card.style.setProperty('--glow-x', `${x}px`);
+  card.style.setProperty('--glow-y', `${y}px`);
 };
 
-WebFont.load({
-  google: { families: ['Press Start 2P'] },
-  active: startGame,
-  inactive: startGame,
-  timeout: 1800,
+cards.forEach((card) => {
+  card.addEventListener('pointermove', updateGlowPosition);
+  card.addEventListener('pointerleave', () => {
+    card.style.setProperty('--glow-x', '50%');
+    card.style.setProperty('--glow-y', '50%');
+  });
 });

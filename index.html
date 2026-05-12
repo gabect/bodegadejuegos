@@ -1,22 +1,125 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Eldervale Crossing is a peaceful 32-bit inspired top-down exploration adventure prototype built with Phaser 3."
+      content="Bodega de Juegos reúne videojuegos arcade originales en una landing moderna con estética Bento Grid, glassmorphism y micro-interacciones premium."
     />
-    <title>Eldervale Crossing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Bodega de Juegos | Arcade Bento 2026</title>
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <noscript>Eldervale Crossing requires JavaScript to run.</noscript>
-    <div id="game-shell">
-      <div id="game-container" aria-label="Eldervale Crossing game canvas"></div>
-      <div id="loading-copy" aria-live="polite">
-        <span>Loading Eldervale Crossing…</span>
-      </div>
-    </div>
+    <main class="site-shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__eyebrow">
+          <span class="hero__pulse" aria-hidden="true"></span>
+          Arcade drops 2026
+        </div>
+        <div class="hero__content">
+          <h1 id="hero-title">Videojuegos arcade con una experiencia premium.</h1>
+          <p>
+            Explora una selección curada de juegos rápidos, vibrantes y listos para jugar. Una
+            landing bento moderna diseñada para convertir visitas en partidas.
+          </p>
+        </div>
+        <a class="hero__cta" href="#games-grid" aria-label="Explorar catálogo arcade">
+          Explorar catálogo
+          <span aria-hidden="true">→</span>
+        </a>
+      </section>
+
+      <section class="games-section" aria-labelledby="games-title">
+        <div class="section-heading">
+          <p>Catálogo destacado</p>
+          <h2 id="games-title">Cuatro mundos arcade, un solo hub.</h2>
+        </div>
+
+        <div id="games-grid" class="bento-grid">
+          <article class="game-card game-card--wide" data-glow-card>
+            <div class="game-card__media game-card__media--nebula" aria-hidden="true">
+              <span class="game-card__badge">Nuevo</span>
+              <div class="orb orb--one"></div>
+              <div class="orb orb--two"></div>
+              <div class="pixel-ship"></div>
+            </div>
+            <div class="game-card__body">
+              <div>
+                <p class="game-card__kicker">Shoot 'em up</p>
+                <h3>Neon Galaxy Raid</h3>
+                <p class="game-card__description">
+                  Defiende un corredor estelar saturado de drones, jefes de fase y power-ups
+                  sincronizados con una banda sonora synthwave de alto impacto.
+                </p>
+              </div>
+              <a class="game-card__button" href="/games/pixel-galaxy-defender/"> Jugar demo </a>
+            </div>
+          </article>
+
+          <article class="game-card" data-glow-card>
+            <div class="game-card__media game-card__media--reflex" aria-hidden="true">
+              <span class="game-card__badge">Speedrun</span>
+              <div class="reflex-ring"></div>
+            </div>
+            <div class="game-card__body">
+              <div>
+                <p class="game-card__kicker">Reflejos</p>
+                <h3>Turbo Reflex 80s</h3>
+                <p class="game-card__description">
+                  Encadena respuestas perfectas en una prueba de reflejos con cronómetro, combos
+                  crecientes y estética retro-futurista.
+                </p>
+              </div>
+              <a class="game-card__button" href="/games/reflex-80s/">Jugar demo</a>
+            </div>
+          </article>
+
+          <article class="game-card" data-glow-card>
+            <div class="game-card__media game-card__media--jungle" aria-hidden="true">
+              <span class="game-card__badge">Clásico</span>
+              <div class="snake-path"></div>
+            </div>
+            <div class="game-card__body">
+              <div>
+                <p class="game-card__kicker">Puzzle arcade</p>
+                <h3>Jungle Byte Snake</h3>
+                <p class="game-card__description">
+                  Reinterpreta la serpiente clásica con frutas mutantes, rutas peligrosas y una
+                  jungla pixelada que cambia cada ronda.
+                </p>
+              </div>
+              <a class="game-card__button" href="/games/jungle-snake/">Jugar demo</a>
+            </div>
+          </article>
+
+          <article class="game-card game-card--tall" data-glow-card>
+            <div class="game-card__media game-card__media--echo" aria-hidden="true">
+              <span class="game-card__badge">Co-op</span>
+              <div class="radar-sweep"></div>
+            </div>
+            <div class="game-card__body">
+              <div>
+                <p class="game-card__kicker">Acción táctica</p>
+                <h3>Frontline Echo</h3>
+                <p class="game-card__description">
+                  Coordina oleadas tácticas, coberturas dinámicas y objetivos relámpago en una arena
+                  compacta con feedback visual cristalino.
+                </p>
+              </div>
+              <a class="game-card__button" href="/games/frontline-echo/">Jugar demo</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
