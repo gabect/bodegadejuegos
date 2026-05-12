@@ -7,108 +7,59 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="checker-depth" aria-hidden="true"></div>
-    <main class="arcade-room" aria-label="Arcade Jungle game room">
-      <header class="neon-sign" aria-label="Arcade Jungle neon sign">
-        <h1 aria-label="Arcade Jungle">Arcade Jungle</h1>
-      </header>
+    <div class="ambient-bg" aria-hidden="true">
+      <span class="orb orb-one"></span>
+      <span class="orb orb-two"></span>
+      <span class="grid-glow"></span>
+    </div>
 
-      <section class="cabinet-row" aria-label="Available arcade cabinets">
-        <article class="mini-cabinet snake-cabinet">
-          <a class="cabinet-link" href="games/jungle-snake/index.html" aria-label="Play Jungle Snake">
-            <div class="cabinet-topper" aria-hidden="true"></div>
-            <div class="marquee-panel">
-              <h2>Jungle Snake</h2>
-            </div>
-            <div class="monitor-bezel" aria-hidden="true">
-              <div class="crt-screen"></div>
-            </div>
-            <div class="control-panel">
-              <span class="joystick" aria-hidden="true"></span>
-              <span class="play-button">Play</span>
-              <div class="button-bank" aria-hidden="true">
-                <span class="arcade-button red"></span>
-                <span class="arcade-button yellow"></span>
-                <span class="arcade-button blue"></span>
-              </div>
-              <div class="coin-details" aria-hidden="true">
-                <span></span><span></span>
-              </div>
-            </div>
-          </a>
-        </article>
+    <main class="site-shell">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Premium indie games</p>
+        <h1 id="page-title">Arcade Jungle</h1>
+        <p class="tagline">A curated collection of fast, focused browser games built for instant play.</p>
+        <a class="primary-cta" href="#games">Explore games</a>
+      </section>
 
-        <article class="mini-cabinet reflex-cabinet">
-          <a class="cabinet-link" href="games/reflex-80s/index.html" aria-label="Play Reflex 80s">
-            <div class="cabinet-topper" aria-hidden="true"></div>
-            <div class="marquee-panel">
-              <h2>Reflex 80s</h2>
-            </div>
-            <div class="monitor-bezel" aria-hidden="true">
-              <div class="crt-screen"></div>
-            </div>
-            <div class="control-panel">
-              <span class="joystick" aria-hidden="true"></span>
-              <span class="play-button">Play</span>
-              <div class="button-bank" aria-hidden="true">
-                <span class="arcade-button yellow"></span>
-                <span class="arcade-button red"></span>
-                <span class="arcade-button teal"></span>
-              </div>
-              <div class="coin-details" aria-hidden="true">
-                <span></span><span></span>
-              </div>
-            </div>
-          </a>
-        </article>
+      <section class="games-section" id="games" aria-labelledby="games-title">
+        <div class="section-heading">
+          <p class="eyebrow">Featured games</p>
+          <h2 id="games-title">Choose your next run</h2>
+        </div>
 
-        <article class="mini-cabinet galaxy-cabinet">
-          <a class="cabinet-link" href="games/pixel-galaxy-defender/index.html" aria-label="Play Pixel Galaxy Defender">
-            <div class="cabinet-topper" aria-hidden="true"></div>
-            <div class="marquee-panel">
-              <h2>Pixel Galaxy Defender</h2>
-            </div>
-            <div class="monitor-bezel" aria-hidden="true">
-              <div class="crt-screen"></div>
-            </div>
-            <div class="control-panel">
-              <span class="joystick" aria-hidden="true"></span>
-              <span class="play-button">Play</span>
-              <div class="button-bank" aria-hidden="true">
-                <span class="arcade-button blue"></span>
-                <span class="arcade-button red"></span>
-                <span class="arcade-button yellow"></span>
-              </div>
-              <div class="coin-details" aria-hidden="true">
-                <span></span><span></span>
-              </div>
-            </div>
-          </a>
-        </article>
+        <div class="game-grid">
+          <article class="game-card snake-card">
+            <a href="games/jungle-snake/index.html" aria-label="Play Jungle Snake">
+              <span class="artwork" aria-hidden="true"></span>
+              <span class="game-title">Jungle Snake</span>
+              <span class="play-link">Play</span>
+            </a>
+          </article>
 
-        <article class="mini-cabinet echo-cabinet">
-          <a class="cabinet-link" href="games/frontline-echo/index.html" aria-label="Play Frontline Echo">
-            <div class="cabinet-topper" aria-hidden="true"></div>
-            <div class="marquee-panel">
-              <h2>Frontline Echo</h2>
-            </div>
-            <div class="monitor-bezel" aria-hidden="true">
-              <div class="crt-screen"></div>
-            </div>
-            <div class="control-panel">
-              <span class="joystick" aria-hidden="true"></span>
-              <span class="play-button">Play</span>
-              <div class="button-bank" aria-hidden="true">
-                <span class="arcade-button teal"></span>
-                <span class="arcade-button yellow"></span>
-                <span class="arcade-button red"></span>
-              </div>
-              <div class="coin-details" aria-hidden="true">
-                <span></span><span></span>
-              </div>
-            </div>
-          </a>
-        </article>
+          <article class="game-card reflex-card">
+            <a href="games/reflex-80s/index.html" aria-label="Play Reflex 80s">
+              <span class="artwork" aria-hidden="true"></span>
+              <span class="game-title">Reflex 80s</span>
+              <span class="play-link">Play</span>
+            </a>
+          </article>
+
+          <article class="game-card galaxy-card">
+            <a href="games/pixel-galaxy-defender/index.html" aria-label="Play Pixel Galaxy Defender">
+              <span class="artwork" aria-hidden="true"></span>
+              <span class="game-title">Pixel Galaxy Defender</span>
+              <span class="play-link">Play</span>
+            </a>
+          </article>
+
+          <article class="game-card echo-card">
+            <a href="games/frontline-echo/index.html" aria-label="Play Frontline Echo">
+              <span class="artwork" aria-hidden="true"></span>
+              <span class="game-title">Frontline Echo</span>
+              <span class="play-link">Play</span>
+            </a>
+          </article>
+        </div>
       </section>
     </main>
 
@@ -116,14 +67,12 @@
       const root = document.documentElement;
 
       window.addEventListener("pointermove", (event) => {
-        const x = (event.clientX / window.innerWidth - 0.5).toFixed(3);
-        const y = (event.clientY / window.innerHeight - 0.5).toFixed(3);
-        root.style.setProperty("--parallax-x", x);
-        root.style.setProperty("--parallax-y", y);
+        root.style.setProperty("--pointer-x", (event.clientX / window.innerWidth - 0.5).toFixed(3));
+        root.style.setProperty("--pointer-y", (event.clientY / window.innerHeight - 0.5).toFixed(3));
       });
 
       window.addEventListener("scroll", () => {
-        root.style.setProperty("--scroll-depth", (window.scrollY * 0.045).toFixed(2));
+        root.style.setProperty("--scroll-y", (window.scrollY * 0.025).toFixed(2));
       }, { passive: true });
     </script>
   </body>
