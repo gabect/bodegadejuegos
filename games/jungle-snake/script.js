@@ -1,5 +1,5 @@
 // Jungle Snake
-// An original 16-bit jungle arcade snake-style game using only Canvas, CSS, and vanilla JavaScript.
+// An original 32-bit-inspired jungle arcade snake-style game using only Canvas, CSS, and vanilla JavaScript.
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -16,6 +16,13 @@ const GRID_SIZE = 20;
 const CELL_SIZE = canvas.width / GRID_SIZE;
 const HIGH_SCORE_KEY = 'jungleSnakeHighScore';
 const SAFE_WARNING = 'Find safe prey to grow.';
+const AMBIENT_LEAVES = Array.from({ length: 34 }, (_, index) => ({
+  x: (index * 97) % canvas.width,
+  y: (index * 53) % canvas.height,
+  size: 8 + (index % 5) * 4,
+  shade: index % 3,
+  sway: index * 0.62,
+}));
 const DIRECTIONS = {
   ArrowUp: { x: 0, y: -1 },
   ArrowDown: { x: 0, y: 1 },
@@ -45,6 +52,9 @@ let queuedDirection;
 let foods;
 let obstacles;
 let particles;
+let previousSnake;
+let jungleDrift;
+let animationProgress;
 let score;
 let highScore;
 let level;
@@ -70,6 +80,9 @@ function resetGame(startImmediately = false) {
   foods = [];
   obstacles = [];
   particles = [];
+  previousSnake = snake.map((part) => ({ ...part }));
+  jungleDrift = 0;
+  animationProgress = 1;
   score = 0;
   highScore = loadHighScore();
   level = 1;
@@ -111,6 +124,7 @@ function gameLoop(timestamp = 0) {
 }
 
 function update(delta) {
+  jungleDrift += delta;
   updateParticles(delta);
 
   if (!running || paused || gameOver) {
@@ -123,13 +137,17 @@ function update(delta) {
   }
 
   moveTimer += delta * 1000;
-  if (moveTimer >= moveDelay) {
-    moveTimer %= moveDelay;
+  while (moveTimer >= moveDelay) {
+    moveTimer -= moveDelay;
     stepSnake();
   }
+  animationProgress = Math.min(1, moveTimer / moveDelay);
 }
 
 function stepSnake() {
+  previousSnake = snake.map((part) => ({ ...part }));
+  animationProgress = 0;
+
   if (!isReverse(queuedDirection, direction)) {
     direction = queuedDirection;
   }
@@ -301,23 +319,47 @@ function draw() {
 }
 
 function drawJungleBackground() {
-  ctx.fillStyle = '#031009';
+  const skyGlow = ctx.createRadialGradient(canvas.width * 0.34, canvas.height * 0.24, 20, canvas.width * 0.45, canvas.height * 0.42, canvas.width * 0.82);
+  skyGlow.addColorStop(0, '#164b24');
+  skyGlow.addColorStop(0.48, '#082b17');
+  skyGlow.addColorStop(1, '#031009');
+  ctx.fillStyle = skyGlow;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawLightBeams();
 
   for (let y = 0; y < GRID_SIZE; y += 1) {
     for (let x = 0; x < GRID_SIZE; x += 1) {
       const odd = (x + y) % 2 === 0;
-      ctx.fillStyle = odd ? '#062414' : '#082b17';
-      ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      const px = x * CELL_SIZE;
+      const py = y * CELL_SIZE;
+      ctx.fillStyle = odd ? '#0d3f1f' : '#0a331b';
+      ctx.fillRect(px, py, CELL_SIZE, CELL_SIZE);
+      ctx.fillStyle = odd ? 'rgba(154, 255, 93, 0.055)' : 'rgba(0, 0, 0, 0.08)';
+      ctx.fillRect(px, py, CELL_SIZE, 8);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+      ctx.fillRect(px, py + CELL_SIZE - 5, CELL_SIZE, 5);
+
       if ((x * 7 + y * 11) % 9 === 0) {
-        ctx.fillStyle = 'rgba(54, 135, 55, 0.28)';
+        ctx.fillStyle = 'rgba(75, 169, 57, 0.30)';
         pixelRect(x, y, 4, 6, 14, 4);
         pixelRect(x, y, 9, 10, 10, 4);
+        ctx.fillStyle = 'rgba(178, 255, 105, 0.18)';
+        pixelRect(x, y, 8, 5, 5, 2);
+      }
+
+      if ((x * 13 + y * 5) % 17 === 0) {
+        ctx.fillStyle = 'rgba(30, 98, 44, 0.38)';
+        pixelRect(x, y, 20, 3, 4, 20);
+        ctx.fillStyle = 'rgba(126, 235, 73, 0.20)';
+        pixelRect(x, y, 17, 9, 10, 3);
       }
     }
   }
 
-  ctx.strokeStyle = 'rgba(147, 255, 56, 0.08)';
+  drawAmbientLeaves();
+
+  ctx.strokeStyle = 'rgba(147, 255, 56, 0.075)';
   ctx.lineWidth = 1;
   for (let i = 0; i <= GRID_SIZE; i += 1) {
     ctx.beginPath();
@@ -327,48 +369,123 @@ function drawJungleBackground() {
     ctx.lineTo(canvas.width, i * CELL_SIZE);
     ctx.stroke();
   }
+
+  const edgeShade = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, canvas.width * 0.16, canvas.width / 2, canvas.height / 2, canvas.width * 0.78);
+  edgeShade.addColorStop(0, 'rgba(255, 255, 255, 0)');
+  edgeShade.addColorStop(1, 'rgba(0, 0, 0, 0.42)');
+  ctx.fillStyle = edgeShade;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawLightBeams() {
+  ctx.save();
+  ctx.globalCompositeOperation = 'screen';
+  for (let i = 0; i < 4; i += 1) {
+    const x = 70 + i * 150 + Math.sin(jungleDrift * 0.45 + i) * 16;
+    const beam = ctx.createLinearGradient(x, 0, x + 90, canvas.height);
+    beam.addColorStop(0, 'rgba(154, 255, 93, 0.13)');
+    beam.addColorStop(0.55, 'rgba(84, 243, 255, 0.035)');
+    beam.addColorStop(1, 'rgba(154, 255, 93, 0)');
+    ctx.fillStyle = beam;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x + 56, 0);
+    ctx.lineTo(x + 150, canvas.height);
+    ctx.lineTo(x - 60, canvas.height);
+    ctx.closePath();
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawAmbientLeaves() {
+  AMBIENT_LEAVES.forEach((leaf) => {
+    const sway = Math.sin(jungleDrift * 0.8 + leaf.sway) * 4;
+    const x = (leaf.x + sway + canvas.width) % canvas.width;
+    const y = (leaf.y + Math.sin(jungleDrift * 0.55 + leaf.sway) * 3 + canvas.height) % canvas.height;
+    ctx.fillStyle = ['rgba(25, 107, 45, 0.28)', 'rgba(58, 148, 56, 0.24)', 'rgba(128, 213, 75, 0.18)'][leaf.shade];
+    ctx.fillRect(Math.round(x), Math.round(y), leaf.size, Math.max(3, leaf.size / 3));
+    ctx.fillRect(Math.round(x + leaf.size * 0.34), Math.round(y - leaf.size * 0.24), Math.max(3, leaf.size / 3), leaf.size);
+  });
 }
 
 function drawObstacles() {
   obstacles.forEach((rock) => {
+    const px = rock.x * CELL_SIZE;
+    const py = rock.y * CELL_SIZE;
+    const shadow = ctx.createRadialGradient(px + 17, py + 23, 3, px + 17, py + 23, 22);
+    shadow.addColorStop(0, 'rgba(0, 0, 0, 0.44)');
+    shadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = shadow;
+    ctx.fillRect(px - 4, py + 10, CELL_SIZE + 8, 22);
+
     ctx.fillStyle = '#2f2a20';
     pixelRect(rock.x, rock.y, 4, 7, 24, 18);
-    ctx.fillStyle = '#574c39';
+    ctx.fillStyle = '#655940';
     pixelRect(rock.x, rock.y, 8, 4, 13, 7);
     ctx.fillStyle = '#1b1712';
     pixelRect(rock.x, rock.y, 3, 23, 27, 5);
+    ctx.fillStyle = '#77694b';
+    pixelRect(rock.x, rock.y, 11, 8, 7, 4);
     ctx.fillStyle = '#3d8c35';
     pixelRect(rock.x, rock.y, 3, 3, 6, 5);
     pixelRect(rock.x, rock.y, 22, 2, 5, 7);
+    ctx.fillStyle = '#90da58';
+    pixelRect(rock.x, rock.y, 5, 4, 3, 2);
   });
 }
 
 function drawSnake() {
-  snake.forEach((part, index) => {
-    const isHead = index === 0;
-    const inset = isHead ? 2 : 4;
-    ctx.fillStyle = isHead ? '#a8ff43' : index % 2 === 0 ? '#49d43b' : '#2fb832';
-    pixelRect(part.x, part.y, inset, inset, CELL_SIZE - inset * 2, CELL_SIZE - inset * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
-    pixelRect(part.x, part.y, inset + 4, inset + 3, 9, 4);
-    ctx.fillStyle = '#0d3a13';
-    pixelRect(part.x, part.y, CELL_SIZE - 9, inset + 7, 4, 4);
-    pixelRect(part.x, part.y, inset + 6, CELL_SIZE - 10, 4, 4);
+  const eased = running && !gameOver ? easeInOut(animationProgress) : 1;
 
-    if (isHead) {
-      drawSnakeFace(part);
-    }
+  snake.forEach((part, index) => {
+    const previous = previousSnake[index] || previousSnake[previousSnake.length - 1] || part;
+    const drawX = previous.x + (part.x - previous.x) * eased;
+    const drawY = previous.y + (part.y - previous.y) * eased;
+    drawSnakeSegment(drawX * CELL_SIZE, drawY * CELL_SIZE, index === 0, index);
   });
 }
 
-function drawSnakeFace(head) {
+function drawSnakeSegment(px, py, isHead, index) {
+  const inset = isHead ? 1.5 : 3.5;
+  const size = CELL_SIZE - inset * 2;
+  const bodyGlow = ctx.createRadialGradient(px + CELL_SIZE / 2, py + CELL_SIZE / 2, 2, px + CELL_SIZE / 2, py + CELL_SIZE / 2, CELL_SIZE * 0.72);
+  bodyGlow.addColorStop(0, isHead ? '#ceff61' : index % 2 === 0 ? '#70e54b' : '#46c83b');
+  bodyGlow.addColorStop(0.62, isHead ? '#78d93d' : index % 2 === 0 ? '#36b835' : '#239a2e');
+  bodyGlow.addColorStop(1, '#0b4519');
+
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.32)';
+  ctx.fillRect(Math.round(px + 5), Math.round(py + 23), 22, 6);
+  ctx.fillStyle = bodyGlow;
+  ctx.fillRect(Math.round(px + inset), Math.round(py + inset), Math.round(size), Math.round(size));
+  ctx.fillStyle = 'rgba(231, 255, 171, 0.40)';
+  ctx.fillRect(Math.round(px + inset + 4), Math.round(py + inset + 3), 10, 4);
+  ctx.fillStyle = index % 2 === 0 ? '#0d5f21' : '#0a4c1d';
+  ctx.fillRect(Math.round(px + CELL_SIZE - 10), Math.round(py + inset + 7), 4, 4);
+  ctx.fillRect(Math.round(px + inset + 6), Math.round(py + CELL_SIZE - 10), 4, 4);
+  ctx.fillStyle = 'rgba(6, 17, 9, 0.22)';
+  ctx.fillRect(Math.round(px + inset + 2), Math.round(py + CELL_SIZE - 7), Math.round(size - 4), 3);
+
+  if (isHead) {
+    drawSnakeFaceAt(px, py);
+  }
+}
+
+function drawSnakeFaceAt(px, py) {
   ctx.fillStyle = '#061109';
   const eyeA = { x: 10 + direction.y * 5 + direction.x * 5, y: 9 - direction.x * 5 + direction.y * 5 };
   const eyeB = { x: 10 - direction.y * 5 + direction.x * 5, y: 9 + direction.x * 5 + direction.y * 5 };
-  pixelRect(head.x, head.y, eyeA.x, eyeA.y, 4, 4);
-  pixelRect(head.x, head.y, eyeB.x, eyeB.y, 4, 4);
+  ctx.fillRect(Math.round(px + eyeA.x), Math.round(py + eyeA.y), 4, 4);
+  ctx.fillRect(Math.round(px + eyeB.x), Math.round(py + eyeB.y), 4, 4);
+  ctx.fillStyle = '#e8ffb1';
+  ctx.fillRect(Math.round(px + eyeA.x + 1), Math.round(py + eyeA.y), 1, 1);
+  ctx.fillRect(Math.round(px + eyeB.x + 1), Math.round(py + eyeB.y), 1, 1);
   ctx.fillStyle = '#ff405d';
-  pixelRect(head.x, head.y, 14 + direction.x * 8, 14 + direction.y * 8, 4, 4);
+  ctx.fillRect(Math.round(px + 14 + direction.x * 8), Math.round(py + 14 + direction.y * 8), 5, 4);
+}
+
+function easeInOut(value) {
+  return value * value * (3 - 2 * value);
 }
 
 function drawFood(food) {
@@ -376,19 +493,34 @@ function drawFood(food) {
   const baseColor = unlocked ? food.type.color : '#ff405d';
   const accent = unlocked ? food.type.accent : '#ffd45a';
   const pulse = Math.sin(performance.now() / 180 + food.pulse) * 2;
+  const px = food.x * CELL_SIZE;
+  const py = food.y * CELL_SIZE;
+
+  const halo = ctx.createRadialGradient(px + 16, py + 16, 4, px + 16, py + 16, 25);
+  halo.addColorStop(0, unlocked ? 'rgba(255, 232, 119, 0.22)' : 'rgba(255, 64, 93, 0.42)');
+  halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = halo;
+  ctx.fillRect(px - 9, py - 9, 50, 50);
+
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+  ctx.fillRect(px + 7, py + 23, 19, 5);
 
   if (!unlocked) {
-    ctx.fillStyle = 'rgba(255, 64, 93, 0.22)';
+    ctx.fillStyle = 'rgba(255, 64, 93, 0.24)';
     pixelRect(food.x, food.y, 1, 1, 30, 30);
     ctx.fillStyle = '#ffd45a';
     pixelRect(food.x, food.y, 14, 4, 4, 16);
     pixelRect(food.x, food.y, 14, 23, 4, 4);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+    pixelRect(food.x, food.y, 3, 3, 10, 3);
   }
 
   ctx.fillStyle = baseColor;
   drawPreyIcon(food, pulse);
   ctx.fillStyle = accent;
   drawPreyAccent(food);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.36)';
+  pixelRect(food.x, food.y, 9, 9 + Math.round(pulse), 5, 2);
 }
 
 function drawPreyIcon(food, pulse) {
@@ -445,6 +577,8 @@ function drawPreyAccent(food) {
   pixelRect(food.x, food.y, 12, 13, 3, 3);
   pixelRect(food.x, food.y, 19, 13, 3, 3);
   pixelRect(food.x, food.y, 13, 22, 8, 3);
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+  pixelRect(food.x, food.y, 9, 24, 15, 2);
 }
 
 function burst(cell, color, amount) {
