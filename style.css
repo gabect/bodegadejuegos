@@ -844,3 +844,510 @@ h2 {
     transform: none;
   }
 }
+
+/* Arcade room direction: physical lounge with handcrafted cabinet details. */
+:root {
+  --wood: #2b170f;
+  --wood-deep: #130b07;
+  --brick: #281712;
+  --metal: #1a1b1f;
+  --metal-light: #34343a;
+  --neon-green: #95f0b8;
+  --neon-amber: #ffbe72;
+  --neon-blue: #9db4ff;
+  --neon-pink: #f5a6ff;
+}
+
+body {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.24) 0 10%, transparent 10% 72%, rgba(0, 0, 0, 0.36) 72%),
+    radial-gradient(ellipse at 66% 14%, rgba(255, 190, 114, 0.1), transparent 34rem),
+    radial-gradient(ellipse at 22% 22%, rgba(149, 240, 184, 0.09), transparent 26rem),
+    linear-gradient(160deg, #080706 0%, #12100d 48%, #07080b 100%);
+}
+
+body::before {
+  z-index: -4;
+  opacity: 1;
+  background:
+    linear-gradient(90deg, transparent 0 7%, rgba(84, 48, 35, 0.12) 7% 7.5%, transparent 7.5% 63%, rgba(84, 48, 35, 0.1) 63% 63.45%, transparent 63.45%),
+    linear-gradient(0deg, transparent 0 16%, rgba(120, 69, 47, 0.08) 16% 16.5%, transparent 16.5% 34%, rgba(120, 69, 47, 0.06) 34% 34.4%, transparent 34.4%),
+    radial-gradient(ellipse at 100% 30%, rgba(255, 255, 255, 0.055), transparent 21rem);
+  mask-image: linear-gradient(90deg, transparent 0 3%, black 11% 79%, transparent 100%);
+  animation: none;
+}
+
+body::after {
+  z-index: -3;
+  background:
+    linear-gradient(180deg, transparent 0 69%, rgba(10, 7, 5, 0.54) 69% 100%),
+    linear-gradient(90deg, transparent 0 12%, rgba(62, 38, 24, 0.52) 12% 14%, transparent 14% 100%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 190, 114, 0.1), transparent 34rem);
+}
+
+.ambient {
+  display: none;
+}
+
+.os-shell {
+  overflow: hidden;
+  padding: clamp(18px, 2.5vw, 34px);
+}
+
+.os-shell::before,
+.os-shell::after {
+  position: fixed;
+  z-index: -2;
+  content: '';
+  pointer-events: none;
+}
+
+.os-shell::before {
+  right: max(-40px, -4vw);
+  bottom: 4vh;
+  width: min(36vw, 430px);
+  height: min(66vh, 620px);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-right: 0;
+  border-radius: 28px 0 0 28px;
+  background:
+    radial-gradient(circle at 18px 18px, rgba(255, 255, 255, 0.2) 0 2px, transparent 2.5px),
+    radial-gradient(circle at calc(100% - 20px) 18px, rgba(255, 255, 255, 0.14) 0 2px, transparent 2.5px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 9px),
+    linear-gradient(110deg, rgba(36, 28, 24, 0.9), rgba(11, 12, 14, 0.54));
+  box-shadow: inset 18px 0 40px rgba(255, 190, 114, 0.035), -30px 20px 80px rgba(0, 0, 0, 0.34);
+}
+
+.os-shell::after {
+  left: 0;
+  right: 0;
+  bottom: 82px;
+  height: 48px;
+  background:
+    linear-gradient(90deg, #0c0c0e 0 12px, #dfdac8 12px 24px, #0c0c0e 24px 36px, #dfdac8 36px 48px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.2));
+  background-size: 48px 100%, 100% 100%;
+  opacity: 0.16;
+  mask-image: linear-gradient(90deg, transparent, black 18%, black 82%, transparent);
+}
+
+.system-bar,
+.dock,
+.app-window,
+.launcher-panel {
+  border-color: rgba(214, 178, 132, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025)),
+    linear-gradient(90deg, rgba(64, 36, 22, 0.55), rgba(12, 13, 16, 0.78));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 28px 90px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(18px) saturate(1.05);
+  -webkit-backdrop-filter: blur(18px) saturate(1.05);
+}
+
+.system-bar {
+  border-radius: 20px;
+  box-shadow:
+    inset 0 -4px 0 rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 22px 70px rgba(0, 0, 0, 0.42);
+}
+
+.brand__mark {
+  border-color: rgba(255, 190, 114, 0.36);
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.34) 0 14%, transparent 14% 86%, rgba(0, 0, 0, 0.28) 86%),
+    linear-gradient(135deg, #8f452d, #f3b35f 48%, #83ddad);
+  box-shadow: 0 10px 24px rgba(255, 190, 114, 0.14);
+}
+
+.brand__copy small,
+.window-title small {
+  color: rgba(255, 214, 157, 0.66);
+}
+
+.status-pill,
+.icon-button,
+.system-clock,
+.home-button,
+.window-actions button,
+.dock__item {
+  border-color: rgba(255, 224, 174, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.08)),
+    rgba(18, 16, 14, 0.68);
+}
+
+.desktop {
+  position: relative;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(500px, 1.28fr);
+  align-items: end;
+  min-height: calc(100vh - 170px);
+  padding: clamp(72px, 10vh, 126px) 0 132px;
+}
+
+.desktop::before {
+  position: absolute;
+  top: clamp(36px, 7vh, 74px);
+  left: clamp(8px, 3vw, 48px);
+  z-index: -1;
+  width: clamp(190px, 21vw, 280px);
+  height: 76px;
+  content: '';
+  border: 1px solid rgba(255, 190, 114, 0.18);
+  border-radius: 4px 22px 4px 22px;
+  background:
+    radial-gradient(circle at 16px 16px, rgba(255, 255, 255, 0.24) 0 2px, transparent 2.5px),
+    radial-gradient(circle at calc(100% - 16px) calc(100% - 16px), rgba(255, 255, 255, 0.16) 0 2px, transparent 2.5px),
+    linear-gradient(100deg, rgba(18, 10, 7, 0.94), rgba(63, 31, 20, 0.62));
+  box-shadow: 0 0 34px rgba(255, 190, 114, 0.08), inset 0 -5px 0 rgba(0, 0, 0, 0.28);
+  transform: rotate(-1.8deg);
+}
+
+.desktop::after {
+  position: absolute;
+  right: clamp(10px, 5vw, 82px);
+  bottom: 106px;
+  left: clamp(140px, 18vw, 280px);
+  z-index: -1;
+  height: 160px;
+  content: '';
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse at 52% 90%, rgba(255, 190, 114, 0.14), transparent 68%);
+  filter: blur(3px);
+}
+
+.desktop__intro {
+  position: relative;
+  padding: clamp(22px, 3vw, 32px) clamp(18px, 3vw, 30px);
+  border-left: 4px solid rgba(255, 190, 114, 0.58);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 86%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
+}
+
+.desktop__intro::after {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  width: 124px;
+  height: 16px;
+  content: '';
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 190, 114, 0.22) 0 2px, transparent 2.6px);
+  background-size: 10px 10px;
+  opacity: 0.65;
+}
+
+.eyebrow {
+  color: var(--neon-amber);
+  text-shadow: 0 0 22px rgba(255, 190, 114, 0.28);
+}
+
+.eyebrow::before {
+  background: var(--neon-amber);
+  box-shadow: 0 0 20px rgba(255, 190, 114, 0.86);
+}
+
+h1 {
+  max-width: 520px;
+  font-size: clamp(3.15rem, 7.2vw, 6.6rem);
+  line-height: 0.9;
+  text-wrap: balance;
+  text-shadow: 0 12px 34px rgba(0, 0, 0, 0.36);
+}
+
+.app-grid {
+  position: relative;
+  align-items: end;
+  gap: clamp(22px, 3vw, 36px);
+  padding: clamp(12px, 2vw, 22px) clamp(4px, 1.2vw, 14px) 0;
+  perspective: 1400px;
+}
+
+.app-grid::before {
+  position: absolute;
+  right: -2%;
+  bottom: -24px;
+  left: -7%;
+  z-index: -1;
+  height: 46px;
+  content: '';
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0 0 34px 34px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 12px, rgba(0, 0, 0, 0.18) 12px 24px),
+    linear-gradient(180deg, rgba(76, 43, 27, 0.56), rgba(9, 8, 8, 0.84));
+  background-size: 24px 14px, 100% 100%;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+  opacity: 0.9;
+}
+
+.game-app {
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+  justify-items: stretch;
+  min-height: clamp(270px, 30vw, 340px);
+  padding: 14px 14px 22px;
+  text-align: center;
+  border: 1px solid rgba(255, 221, 176, 0.16);
+  border-radius: 18px 18px 26px 26px;
+  background:
+    radial-gradient(circle at 18px 18px, rgba(255, 255, 255, 0.24) 0 2px, transparent 2.5px),
+    radial-gradient(circle at calc(100% - 18px) 18px, rgba(255, 255, 255, 0.18) 0 2px, transparent 2.5px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0 10px, transparent 10px calc(100% - 10px), rgba(255, 255, 255, 0.04) calc(100% - 10px)),
+    linear-gradient(180deg, #221714 0%, #111216 50%, #0a0a0c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -12px 0 rgba(0, 0, 0, 0.22),
+    0 30px 60px rgba(0, 0, 0, 0.38);
+  transform: rotateX(2deg) rotateZ(-0.6deg);
+}
+
+.game-app:nth-child(2) {
+  min-height: clamp(248px, 28vw, 318px);
+  margin-top: 24px;
+  border-radius: 28px 12px 24px 22px;
+  transform: rotateX(2deg) rotateZ(0.8deg);
+}
+
+.game-app:nth-child(3) {
+  min-height: clamp(292px, 31vw, 360px);
+  border-radius: 14px 30px 28px 18px;
+  transform: rotateX(2deg) rotateZ(0.45deg);
+}
+
+.game-app:nth-child(4) {
+  min-height: clamp(260px, 29vw, 330px);
+  margin-top: 18px;
+  border-radius: 22px 22px 12px 30px;
+  transform: rotateX(2deg) rotateZ(-0.8deg);
+}
+
+.game-app::before {
+  inset: 42px 12px 66px;
+  z-index: 0;
+  opacity: 1;
+  border: 10px solid rgba(7, 7, 9, 0.74);
+  border-radius: 14px 14px 22px 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 34%),
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.075), transparent 54%),
+    #08090d;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 16px 36px rgba(255, 255, 255, 0.035),
+    0 14px 24px rgba(0, 0, 0, 0.28);
+}
+
+.game-app::after {
+  position: absolute;
+  right: 18px;
+  bottom: 22px;
+  left: 18px;
+  height: 28px;
+  content: '';
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 20% 50%, #ff4b49 0 4px, transparent 4.8px),
+    radial-gradient(circle at 34% 50%, #f4d27a 0 3px, transparent 3.8px),
+    radial-gradient(circle at 48% 50%, #8df0b0 0 3px, transparent 3.8px),
+    radial-gradient(circle at 76% 50%, rgba(255, 255, 255, 0.32) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 84% 50%, rgba(255, 255, 255, 0.32) 0 1.5px, transparent 2px),
+    linear-gradient(180deg, #25262c, #111216);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 -5px 14px rgba(0, 0, 0, 0.26);
+}
+
+.game-app:hover,
+.game-app:focus-visible,
+.game-app.is-focused {
+  border-color: rgba(255, 216, 158, 0.36);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -12px 0 rgba(0, 0, 0, 0.24),
+    0 36px 70px rgba(0, 0, 0, 0.42),
+    0 0 38px rgba(255, 190, 114, 0.09);
+  transform: translateY(-8px) rotateX(1deg) rotateZ(0deg);
+}
+
+.game-app__title {
+  z-index: 1;
+  order: -1;
+  min-height: 42px;
+  padding: 10px 12px;
+  overflow: hidden;
+  color: rgba(255, 249, 228, 0.94);
+  font-size: clamp(0.85rem, 1.05vw, 1.02rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px 10px 7px 7px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 18% 82%, rgba(255, 255, 255, 0.04)),
+    linear-gradient(180deg, rgba(255, 190, 114, 0.16), rgba(0, 0, 0, 0.18)),
+    #15110f;
+  box-shadow: 0 0 22px rgba(255, 190, 114, 0.1), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.game-app:nth-child(1) .game-app__title {
+  box-shadow: 0 0 22px rgba(149, 240, 184, 0.12), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.game-app:nth-child(2) .game-app__title {
+  box-shadow: 0 0 22px rgba(255, 190, 114, 0.14), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.game-app:nth-child(3) .game-app__title {
+  box-shadow: 0 0 22px rgba(157, 180, 255, 0.14), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.game-app:nth-child(4) .game-app__title {
+  box-shadow: 0 0 22px rgba(245, 166, 255, 0.12), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.game-app__icon {
+  z-index: 1;
+  place-self: center stretch;
+  width: auto;
+  height: clamp(126px, 15vw, 174px);
+  margin: 8px 8px 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px 12px 18px 18px;
+  box-shadow:
+    inset 0 0 0 10px rgba(0, 0, 0, 0.28),
+    inset 0 18px 34px rgba(255, 255, 255, 0.06),
+    0 16px 32px rgba(0, 0, 0, 0.32);
+}
+
+.game-app:hover .game-app__icon,
+.game-app.is-focused .game-app__icon {
+  box-shadow:
+    inset 0 0 0 10px rgba(0, 0, 0, 0.3),
+    inset 0 18px 34px rgba(255, 255, 255, 0.09),
+    0 20px 42px rgba(0, 0, 0, 0.38),
+    0 0 28px rgba(255, 255, 255, 0.05);
+  transform: translateZ(18px) rotateX(2deg);
+}
+
+.game-app__icon::before {
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.24), transparent 26%),
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.6), transparent 0.28rem);
+}
+
+.game-app__icon::after {
+  right: auto;
+  bottom: 14px;
+  left: 14px;
+  width: 42px;
+  height: 18px;
+  opacity: 0.5;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.36) 0 1.5px, transparent 2px);
+  background-size: 7px 7px;
+  filter: none;
+}
+
+.game-app__meta {
+  z-index: 1;
+  align-self: end;
+  min-height: 24px;
+  margin: 6px 16px 30px;
+  color: rgba(255, 236, 204, 0.58);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dock {
+  width: min(calc(100% - 28px), 520px);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 14px 14px, rgba(255, 255, 255, 0.16) 0 1.5px, transparent 2px),
+    radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), rgba(255, 255, 255, 0.12) 0 1.5px, transparent 2px),
+    linear-gradient(180deg, rgba(43, 23, 15, 0.9), rgba(11, 10, 10, 0.88));
+}
+
+.dock__item.is-active {
+  background: rgba(255, 190, 114, 0.14);
+  box-shadow: inset 0 -2px 0 rgba(255, 190, 114, 0.12), 0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+.launcher-panel {
+  border-radius: 24px;
+}
+
+.app-window {
+  border-radius: 20px;
+}
+
+.window-chrome {
+  background:
+    linear-gradient(90deg, rgba(65, 37, 22, 0.74), rgba(8, 9, 12, 0.76)),
+    var(--wood-deep);
+}
+
+@media (max-width: 940px) {
+  .desktop {
+    grid-template-columns: 1fr;
+    align-items: start;
+    min-height: auto;
+  }
+
+  .desktop::before {
+    opacity: 0.62;
+  }
+
+  .app-grid {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 680px) {
+  .os-shell::before {
+    opacity: 0.35;
+  }
+
+  .desktop__intro {
+    padding: 20px 18px;
+  }
+
+  .game-app,
+  .game-app:nth-child(2),
+  .game-app:nth-child(3),
+  .game-app:nth-child(4) {
+    grid-template-columns: 1fr;
+    min-height: 260px;
+    margin-top: 0;
+    padding: 12px 12px 20px;
+    text-align: center;
+    transform: none;
+  }
+
+  .game-app__icon {
+    grid-row: auto;
+    width: auto;
+    height: 126px;
+    margin: 6px 6px 0;
+    border-radius: 12px 12px 18px 18px;
+  }
+
+  .game-app__meta {
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .dock {
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 440px) {
+  .game-app__meta {
+    display: block;
+    font-size: 0.64rem;
+  }
+}
