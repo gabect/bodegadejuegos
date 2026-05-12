@@ -17,6 +17,11 @@
   const ENEMY_DAMAGE_PER_SECOND = 18;
   const EXTRACTION_RADIUS = 0.72;
   const MAX_HEALTH = 100;
+  const ENEMY_MAX_HEALTH = 3;
+  const MAX_AMMO = 6;
+  const MUZZLE_FLASH_TIME = 0.12;
+  const HIT_FEEDBACK_TIME = 0.45;
+
 
   const map = [
     "111111111111",
@@ -45,7 +50,11 @@
   const state = {
     mode: "ready",
     player: { ...playerStart, health: MAX_HEALTH },
-    enemy: { ...enemyStart },
+    enemy: { ...enemyStart, health: ENEMY_MAX_HEALTH, defeated: false },
+    ammo: MAX_AMMO,
+    muzzleFlashTimer: 0,
+    hitFeedbackTimer: 0,
+    statusText: "Defeat the patrol, then extract",
     keys: new Set(),
     pointerLocked: false,
     won: false,
@@ -62,7 +71,11 @@
 
   function resetGame() {
     state.player = { ...playerStart, health: MAX_HEALTH };
-    state.enemy = { ...enemyStart };
+    state.enemy = { ...enemyStart, health: ENEMY_MAX_HEALTH, defeated: false };
+    state.ammo = MAX_AMMO;
+    state.muzzleFlashTimer = 0;
+    state.hitFeedbackTimer = 0;
+    state.statusText = "Defeat the patrol, then extract";
     state.mode = "playing";
     state.won = false;
     hideOverlay();
@@ -144,6 +157,7 @@
 
   function updateEnemy(dt) {
     const e = state.enemy;
+    if (e.defeated) return;
     const p = state.player;
     const distanceToPlayer = Math.hypot(p.x - e.x, p.y - e.y);
     const canSeePlayer = distanceToPlayer <= ENEMY_CHASE_RADIUS && hasLineOfSight(e, p);
@@ -176,6 +190,67 @@
     }
   }
 
+  function castEnemyRay(angle) {
+    const e = state.enemy;
+    if (e.defeated) return null;
+
+    const rayX = Math.cos(angle);
+    const rayY = Math.sin(angle);
+    const dx = e.x - state.player.x;
+    const dy = e.y - state.player.y;
+    const projection = dx * rayX + dy * rayY;
+    if (projection <= 0 || projection > MAX_DEPTH) return null;
+
+    const closestX = state.player.x + rayX * projection;
+    const closestY = state.player.y + rayY * projection;
+    const missDistance = Math.hypot(e.x - closestX, e.y - closestY);
+    if (missDistance > ENEMY_RADIUS + 0.08) return null;
+
+    const wallHit = castRay(angle);
+    if (projection > wallHit.depth + 0.04) return null;
+
+    return { distance: projection };
+  }
+
+  function shoot() {
+    if (state.mode !== "playing") return;
+
+    if (state.ammo <= 0) {
+      state.statusText = "Empty - press R to reload";
+      state.hitFeedbackTimer = HIT_FEEDBACK_TIME;
+      return;
+    }
+
+    state.ammo -= 1;
+    state.muzzleFlashTimer = MUZZLE_FLASH_TIME;
+
+    const hit = castEnemyRay(state.player.angle);
+    if (!hit) {
+      state.statusText = "Shot missed";
+      state.hitFeedbackTimer = Math.max(state.hitFeedbackTimer, 0.18);
+      return;
+    }
+
+    state.enemy.health = Math.max(0, state.enemy.health - 1);
+    state.hitFeedbackTimer = HIT_FEEDBACK_TIME;
+
+    if (state.enemy.health <= 0) {
+      state.enemy.defeated = true;
+      state.statusText = "Patrol defeated - extraction unlocked";
+      return;
+    }
+
+    state.statusText = `Hit confirmed - patrol armor ${state.enemy.health}/${ENEMY_MAX_HEALTH}`;
+  }
+
+  function reload() {
+    if (state.mode !== "playing") return;
+
+    state.ammo = MAX_AMMO;
+    state.statusText = "Reloaded";
+    state.hitFeedbackTimer = HIT_FEEDBACK_TIME * 0.65;
+  }
+
   function castRay(angle) {
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
@@ -201,6 +276,9 @@
   function update(dt) {
     if (state.mode !== "playing") return;
 
+    state.muzzleFlashTimer = Math.max(0, state.muzzleFlashTimer - dt);
+    state.hitFeedbackTimer = Math.max(0, state.hitFeedbackTimer - dt);
+
     const p = state.player;
     const turnSpeed = 2.4;
     if (state.keys.has("ArrowLeft")) p.angle -= turnSpeed * dt;
@@ -221,7 +299,13 @@
 
     if (state.mode !== "playing") return;
 
-    if (Math.hypot(p.x - extraction.x, p.y - extraction.y) <= EXTRACTION_RADIUS) {
+    const atExtraction = Math.hypot(p.x - extraction.x, p.y - extraction.y) <= EXTRACTION_RADIUS;
+    if (atExtraction && !state.enemy.defeated) {
+      state.statusText = "Extraction locked - defeat the patrol";
+      state.hitFeedbackTimer = Math.max(state.hitFeedbackTimer, 0.15);
+    }
+
+    if (atExtraction && state.enemy.defeated) {
       state.mode = "won";
       state.won = true;
       showOverlay(
@@ -294,6 +378,7 @@
 
   function drawEnemy(zBuffer) {
     const e = state.enemy;
+    if (e.defeated) return;
     const dx = e.x - state.player.x;
     const dy = e.y - state.player.y;
     const distance = Math.hypot(dx, dy);
@@ -336,6 +421,15 @@
     ctx.fillStyle = "#1a0504";
     ctx.fillRect(screenX - width * 0.2, eyeY, Math.max(1, width * 0.12), Math.max(1, height * 0.04));
     ctx.fillRect(screenX + width * 0.08, eyeY, Math.max(1, width * 0.12), Math.max(1, height * 0.04));
+
+    const barWidth = width * 0.78;
+    const barHeight = Math.max(4, height * 0.035);
+    const barX = screenX - barWidth / 2;
+    const barY = top - barHeight * 3;
+    ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
+    ctx.fillRect(barX, barY, barWidth, barHeight);
+    ctx.fillStyle = state.hitFeedbackTimer > 0 ? "#ffe066" : "#ff5c4d";
+    ctx.fillRect(barX, barY, barWidth * (e.health / ENEMY_MAX_HEALTH), barHeight);
   }
 
   function drawMinimap() {
@@ -355,8 +449,10 @@
       }
     }
 
-    ctx.fillStyle = "#d12e2e";
-    ctx.fillRect(pad + state.enemy.x * scale - 2, pad + state.enemy.y * scale - 2, 4, 4);
+    if (!state.enemy.defeated) {
+      ctx.fillStyle = "#d12e2e";
+      ctx.fillRect(pad + state.enemy.x * scale - 2, pad + state.enemy.y * scale - 2, 4, 4);
+    }
 
     ctx.fillStyle = "#f5e6a8";
     ctx.beginPath();
@@ -371,37 +467,92 @@
     ctx.restore();
   }
 
+  function drawWeapon() {
+    const baseX = W / 2;
+    const baseY = H - 12;
+
+    ctx.save();
+    ctx.fillStyle = "#27221d";
+    ctx.fillRect(baseX - 48, baseY - 58, 96, 54);
+    ctx.fillStyle = "#4a4035";
+    ctx.fillRect(baseX - 36, baseY - 78, 72, 42);
+    ctx.fillStyle = "#16130f";
+    ctx.fillRect(baseX - 10, baseY - 120, 20, 66);
+    ctx.fillStyle = "#6b5a48";
+    ctx.fillRect(baseX - 7, baseY - 128, 14, 18);
+    ctx.fillStyle = "rgba(224, 211, 154, 0.25)";
+    ctx.fillRect(baseX + 14, baseY - 72, 12, 34);
+
+    if (state.muzzleFlashTimer > 0) {
+      const alpha = state.muzzleFlashTimer / MUZZLE_FLASH_TIME;
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = "#fff2a8";
+      ctx.beginPath();
+      ctx.moveTo(baseX, baseY - 150);
+      ctx.lineTo(baseX - 24, baseY - 112);
+      ctx.lineTo(baseX, baseY - 126);
+      ctx.lineTo(baseX + 24, baseY - 112);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#ff9f1a";
+      ctx.beginPath();
+      ctx.moveTo(baseX, baseY - 142);
+      ctx.lineTo(baseX - 13, baseY - 118);
+      ctx.lineTo(baseX + 13, baseY - 118);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+
   function drawHud() {
     const distance = Math.hypot(state.player.x - extraction.x, state.player.y - extraction.y);
+    const objective = state.enemy.defeated ? "OBJECTIVE: Reach the green extraction zone" : "OBJECTIVE: Defeat the patrol before extraction";
 
     ctx.fillStyle = "rgba(8, 9, 8, 0.72)";
-    ctx.fillRect(0, H - 54, W, 54);
+    ctx.fillRect(0, H - 64, W, 64);
     ctx.fillStyle = "#e0d39a";
     ctx.font = "16px 'Courier New', monospace";
-    ctx.fillText("OBJECTIVE: Reach the green extraction zone", 18, H - 31);
-    ctx.fillStyle = "#43ff69";
-    ctx.fillText(`Distance: ${distance.toFixed(1)}m`, 18, H - 12);
+    ctx.fillText(objective, 18, H - 40);
+    ctx.fillStyle = state.enemy.defeated ? "#43ff69" : "#ffcf5a";
+    ctx.fillText(`Distance: ${distance.toFixed(1)}m • Enemy: ${state.enemy.defeated ? "DEFEATED" : `${state.enemy.health}/${ENEMY_MAX_HEALTH}`}`, 18, H - 18);
 
     const health = Math.ceil(state.player.health);
     ctx.fillStyle = health > 35 ? "#e0d39a" : "#ff5c4d";
-    ctx.fillText(`Health: ${health}`, W - 132, H - 31);
+    ctx.fillText(`Health: ${health}`, W - 148, H - 44);
+    ctx.fillStyle = "#e0d39a";
+    ctx.fillText(`Ammo: ${state.ammo}/${MAX_AMMO}`, W - 148, H - 26);
     ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
-    ctx.fillRect(W - 134, H - 24, 104, 10);
+    ctx.fillRect(W - 150, H - 18, 104, 10);
     ctx.fillStyle = health > 35 ? "#43ff69" : "#ff5c4d";
-    ctx.fillRect(W - 132, H - 22, Math.max(0, state.player.health), 6);
+    ctx.fillRect(W - 148, H - 16, Math.max(0, state.player.health), 6);
 
-    ctx.strokeStyle = "rgba(224, 211, 154, 0.85)";
+    if (state.hitFeedbackTimer > 0) {
+      ctx.fillStyle = state.enemy.defeated ? "#43ff69" : "#ffe066";
+      ctx.font = "14px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(state.statusText, W / 2, H / 2 + 34);
+      ctx.textAlign = "start";
+    }
+
+    ctx.strokeStyle = state.hitFeedbackTimer > 0 ? "#ffe066" : "rgba(224, 211, 154, 0.85)";
     ctx.beginPath();
-    ctx.moveTo(W / 2 - 8, H / 2);
-    ctx.lineTo(W / 2 + 8, H / 2);
-    ctx.moveTo(W / 2, H / 2 - 8);
-    ctx.lineTo(W / 2, H / 2 + 8);
+    ctx.moveTo(W / 2 - 10, H / 2);
+    ctx.lineTo(W / 2 - 3, H / 2);
+    ctx.moveTo(W / 2 + 3, H / 2);
+    ctx.lineTo(W / 2 + 10, H / 2);
+    ctx.moveTo(W / 2, H / 2 - 10);
+    ctx.lineTo(W / 2, H / 2 - 3);
+    ctx.moveTo(W / 2, H / 2 + 3);
+    ctx.lineTo(W / 2, H / 2 + 10);
     ctx.stroke();
   }
 
   function draw() {
     const zBuffer = drawWorld();
     drawEnemy(zBuffer);
+    drawWeapon();
     drawMinimap();
     drawHud();
   }
@@ -415,12 +566,23 @@
   }
 
   document.addEventListener("keydown", (event) => {
-    if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowLeft", "ArrowRight", "Enter", "Space"].includes(event.code)) {
+    if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowLeft", "ArrowRight", "Enter", "Space", "KeyR"].includes(event.code)) {
       event.preventDefault();
     }
 
-    if (event.code === "Enter" || event.code === "Space") {
+    if (event.code === "Enter") {
       if (state.mode !== "playing") resetGame();
+      return;
+    }
+
+    if (event.code === "Space") {
+      if (state.mode === "playing") shoot();
+      else resetGame();
+      return;
+    }
+
+    if (event.code === "KeyR") {
+      reload();
       return;
     }
 
@@ -431,8 +593,16 @@
     state.keys.delete(event.code);
   });
 
-  canvas.addEventListener("click", () => {
-    if (state.mode !== "playing") resetGame();
+  canvas.addEventListener("mousedown", (event) => {
+    if (event.button !== 0) return;
+    event.preventDefault();
+
+    if (state.mode !== "playing") {
+      resetGame();
+    } else {
+      shoot();
+    }
+
     canvas.requestPointerLock?.();
   });
 
@@ -451,9 +621,9 @@
   showOverlay(
     "Frontline Echo Prototype",
     [
-      "Small flat trench map. One red patrol enemy. No weapons. No mission loop.",
+      "Small flat trench map. One red patrol enemy. Simple weapon. No mission loop.",
       "Move with WASD. Look with mouse after clicking the screen, or use the left and right arrow keys.",
-      "Goal: walk into the green extraction zone. Walls block movement."
+      "Shoot with left click or Space. Reload with R. Defeat the patrol, then enter the green extraction zone."
     ]
   );
   draw();
