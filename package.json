@@ -1,0 +1,22 @@
+{
+  "name": "bodega-de-juegos-adventure",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "lint": "eslint src --ext .js",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "howler": "^2.2.4",
+    "phaser": "^3.90.0",
+    "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "eslint": "^9.26.0",
+    "prettier": "^3.5.3",
+    "vite": "^6.3.5"
+  }
+}
