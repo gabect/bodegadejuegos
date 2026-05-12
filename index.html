@@ -5,119 +5,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Bodega de Juegos reúne videojuegos arcade originales en una landing moderna con estética Bento Grid, glassmorphism y micro-interacciones premium."
+      content="Arcade Jungle es un Web OS premium para abrir y jugar videojuegos online con una interfaz minimalista, elegante y fluida."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <title>Bodega de Juegos | Arcade Bento 2026</title>
+    <title>Arcade Jungle | Gaming Web OS</title>
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <main class="site-shell">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero__eyebrow">
-          <span class="hero__pulse" aria-hidden="true"></span>
-          Arcade drops 2026
+    <div class="ambient ambient--one" aria-hidden="true"></div>
+    <div class="ambient ambient--two" aria-hidden="true"></div>
+    <div class="ambient ambient--three" aria-hidden="true"></div>
+
+    <main class="os-shell" aria-label="Arcade Jungle Web OS">
+      <header class="system-bar" aria-label="Barra del sistema">
+        <a class="brand" href="#home" aria-label="Arcade Jungle Home" data-nav="home">
+          <span class="brand__mark" aria-hidden="true">
+            <span></span>
+          </span>
+          <span class="brand__copy">
+            <strong>Arcade Jungle</strong>
+            <small>Gaming Web OS</small>
+          </span>
+        </a>
+
+        <div class="system-status" aria-label="Estado del sistema">
+          <time class="system-clock" datetime="00:00" data-clock>00:00</time>
+          <span class="status-pill" aria-label="Wi-Fi conectado">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 18.2l2.2-2.2a3.1 3.1 0 0 0-4.4 0L12 18.2Zm-5.2-5.1 1.5 1.5a5.2 5.2 0 0 1 7.4 0l1.5-1.5a7.4 7.4 0 0 0-10.4 0Zm-3.5-3.5 1.5 1.5a10.2 10.2 0 0 1 14.4 0l1.5-1.5a12.3 12.3 0 0 0-17.4 0Z"
+              />
+            </svg>
+          </span>
+          <span class="status-pill" aria-label="Batería completa">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M16.8 7H4.2A2.2 2.2 0 0 0 2 9.2v5.6A2.2 2.2 0 0 0 4.2 17h12.6a2.2 2.2 0 0 0 2.2-2.2V9.2A2.2 2.2 0 0 0 16.8 7Zm.2 7.8c0 .1-.1.2-.2.2H4.2c-.1 0-.2-.1-.2-.2V9.2c0-.1.1-.2.2-.2h12.6c.1 0 .2.1.2.2v5.6ZM20 10v4h1.2c.4 0 .8-.4.8-.8v-2.4c0-.4-.4-.8-.8-.8H20Z"
+              />
+            </svg>
+          </span>
+          <button class="icon-button" type="button" aria-label="Perfil">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 12.2a4.3 4.3 0 1 0 0-8.6 4.3 4.3 0 0 0 0 8.6Zm0 2c-4 0-7.4 2.4-7.4 5.2 0 .6.4 1 1 1h12.8c.6 0 1-.4 1-1 0-2.8-3.4-5.2-7.4-5.2Z"
+              />
+            </svg>
+          </button>
+          <button class="icon-button" type="button" aria-label="Ajustes" data-nav="settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M19.1 13.2a7.8 7.8 0 0 0 0-2.4l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2-1.2L14.4 3h-4l-.4 2.6a8 8 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a7.8 7.8 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 2 1.2l.4 2.6h4l.4-2.6a8 8 0 0 0 2-1.2l2.4 1 2-3.5-2.1-1.5ZM12.4 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"
+              />
+            </svg>
+          </button>
         </div>
-        <div class="hero__content">
-          <h1 id="hero-title">Videojuegos arcade con una experiencia premium.</h1>
+      </header>
+
+      <section id="home" class="desktop" aria-labelledby="desktop-title" data-view="home">
+        <div class="desktop__intro">
+          <p class="eyebrow">Ready to play</p>
+          <h1 id="desktop-title">Your game library, opened like a modern OS.</h1>
           <p>
-            Explora una selección curada de juegos rápidos, vibrantes y listos para jugar. Una
-            landing bento moderna diseñada para convertir visitas en partidas.
+            Launch each title as a focused app window with soft motion, clean controls and a
+            persistent home path back to the Arcade Jungle desktop.
           </p>
         </div>
-        <a class="hero__cta" href="#games-grid" aria-label="Explorar catálogo arcade">
-          Explorar catálogo
-          <span aria-hidden="true">→</span>
-        </a>
-      </section>
 
-      <section class="games-section" aria-labelledby="games-title">
-        <div class="section-heading">
-          <p>Catálogo destacado</p>
-          <h2 id="games-title">Cuatro mundos arcade, un solo hub.</h2>
-        </div>
+        <div class="app-grid" aria-label="Aplicaciones de juego">
+          <button class="game-app is-focused" type="button" data-game="jungle-snake">
+            <span class="game-app__icon game-app__icon--snake" aria-hidden="true">
+              <span class="snake-glyph"></span>
+            </span>
+            <span class="game-app__title">Jungle Snake</span>
+            <span class="game-app__meta">Classic focus</span>
+          </button>
 
-        <div id="games-grid" class="bento-grid">
-          <article class="game-card game-card--wide" data-glow-card>
-            <div class="game-card__media game-card__media--nebula" aria-hidden="true">
-              <span class="game-card__badge">Nuevo</span>
-              <div class="orb orb--one"></div>
-              <div class="orb orb--two"></div>
-              <div class="pixel-ship"></div>
-            </div>
-            <div class="game-card__body">
-              <div>
-                <p class="game-card__kicker">Shoot 'em up</p>
-                <h3>Neon Galaxy Raid</h3>
-                <p class="game-card__description">
-                  Defiende un corredor estelar saturado de drones, jefes de fase y power-ups
-                  sincronizados con una banda sonora synthwave de alto impacto.
-                </p>
-              </div>
-              <a class="game-card__button" href="/games/pixel-galaxy-defender/"> Jugar demo </a>
-            </div>
-          </article>
+          <button class="game-app" type="button" data-game="reflex-80s">
+            <span class="game-app__icon game-app__icon--reflex" aria-hidden="true">
+              <span class="reflex-glyph"></span>
+            </span>
+            <span class="game-app__title">Reflex 80s</span>
+            <span class="game-app__meta">Reaction test</span>
+          </button>
 
-          <article class="game-card" data-glow-card>
-            <div class="game-card__media game-card__media--reflex" aria-hidden="true">
-              <span class="game-card__badge">Speedrun</span>
-              <div class="reflex-ring"></div>
-            </div>
-            <div class="game-card__body">
-              <div>
-                <p class="game-card__kicker">Reflejos</p>
-                <h3>Turbo Reflex 80s</h3>
-                <p class="game-card__description">
-                  Encadena respuestas perfectas en una prueba de reflejos con cronómetro, combos
-                  crecientes y estética retro-futurista.
-                </p>
-              </div>
-              <a class="game-card__button" href="/games/reflex-80s/">Jugar demo</a>
-            </div>
-          </article>
+          <button class="game-app" type="button" data-game="pixel-galaxy-defender">
+            <span class="game-app__icon game-app__icon--galaxy" aria-hidden="true">
+              <span class="ship-glyph"></span>
+            </span>
+            <span class="game-app__title">Pixel Galaxy Defender</span>
+            <span class="game-app__meta">Arcade shooter</span>
+          </button>
 
-          <article class="game-card" data-glow-card>
-            <div class="game-card__media game-card__media--jungle" aria-hidden="true">
-              <span class="game-card__badge">Clásico</span>
-              <div class="snake-path"></div>
-            </div>
-            <div class="game-card__body">
-              <div>
-                <p class="game-card__kicker">Puzzle arcade</p>
-                <h3>Jungle Byte Snake</h3>
-                <p class="game-card__description">
-                  Reinterpreta la serpiente clásica con frutas mutantes, rutas peligrosas y una
-                  jungla pixelada que cambia cada ronda.
-                </p>
-              </div>
-              <a class="game-card__button" href="/games/jungle-snake/">Jugar demo</a>
-            </div>
-          </article>
-
-          <article class="game-card game-card--tall" data-glow-card>
-            <div class="game-card__media game-card__media--echo" aria-hidden="true">
-              <span class="game-card__badge">Co-op</span>
-              <div class="radar-sweep"></div>
-            </div>
-            <div class="game-card__body">
-              <div>
-                <p class="game-card__kicker">Acción táctica</p>
-                <h3>Frontline Echo</h3>
-                <p class="game-card__description">
-                  Coordina oleadas tácticas, coberturas dinámicas y objetivos relámpago en una arena
-                  compacta con feedback visual cristalino.
-                </p>
-              </div>
-              <a class="game-card__button" href="/games/frontline-echo/">Jugar demo</a>
-            </div>
-          </article>
+          <button class="game-app" type="button" data-game="frontline-echo">
+            <span class="game-app__icon game-app__icon--frontline" aria-hidden="true">
+              <span class="echo-glyph"></span>
+            </span>
+            <span class="game-app__title">Frontline Echo</span>
+            <span class="game-app__meta">Tactical waves</span>
+          </button>
         </div>
       </section>
+
+      <section
+        id="games"
+        class="launcher-panel"
+        aria-labelledby="games-title"
+        data-view="games"
+        hidden
+      >
+        <p class="eyebrow">Library</p>
+        <h2 id="games-title">Four installed games, optimized for quick sessions.</h2>
+        <p>Select any app icon on the desktop to open it in a clean Web OS window.</p>
+      </section>
+
+      <section
+        id="settings"
+        class="launcher-panel"
+        aria-labelledby="settings-title"
+        data-view="settings"
+        hidden
+      >
+        <p class="eyebrow">System</p>
+        <h2 id="settings-title">Minimal settings, maximum play.</h2>
+        <div class="settings-grid">
+          <span>Ambient lighting <strong>On</strong></span>
+          <span>Motion <strong>Smooth</strong></span>
+          <span>Display mode <strong>Responsive</strong></span>
+        </div>
+      </section>
+
+      <section
+        id="about"
+        class="launcher-panel"
+        aria-labelledby="about-title"
+        data-view="about"
+        hidden
+      >
+        <p class="eyebrow">About</p>
+        <h2 id="about-title">A premium shell for browser-native games.</h2>
+        <p>
+          Arcade Jungle reimagines a landing page as a quiet, game-first operating system inspired
+          by console menus, Smart TV interfaces and modern spatial design.
+        </p>
+      </section>
+
+      <section class="app-window" aria-label="Ventana de juego" aria-hidden="true" data-window>
+        <div class="window-chrome">
+          <button class="home-button" type="button" data-close-window>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M11.2 4.2 3.8 10c-.5.4-.8 1-.8 1.6v7.1c0 .7.6 1.3 1.3 1.3h4.2v-5.7h7V20h4.2c.7 0 1.3-.6 1.3-1.3v-7.1c0-.6-.3-1.2-.8-1.6l-7.4-5.8a1.3 1.3 0 0 0-1.6 0Z"
+              />
+            </svg>
+            Home
+          </button>
+          <div class="window-title">
+            <span data-window-icon></span>
+            <div>
+              <strong data-window-title>Game</strong>
+              <small>Running in Arcade Jungle</small>
+            </div>
+          </div>
+          <div class="window-actions">
+            <button type="button" data-fullscreen>Fullscreen</button>
+            <button type="button" data-close-window aria-label="Cerrar juego">Close</button>
+          </div>
+        </div>
+        <div class="game-frame-wrap">
+          <iframe title="Arcade Jungle game window" data-game-frame></iframe>
+        </div>
+      </section>
+
+      <nav class="dock" aria-label="Launcher">
+        <button class="dock__item is-active" type="button" data-nav="home">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 4 8 6.4V20h-5.2v-5.5H9.2V20H4v-9.6L12 4Z" />
+          </svg>
+          <span>Home</span>
+        </button>
+        <button class="dock__item" type="button" data-nav="games">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 8h10a5 5 0 0 1 4.7 3.4l1 3.1a4 4 0 0 1-6.5 4.2L14.5 17h-5l-1.7 1.7a4 4 0 0 1-6.5-4.2l1-3.1A5 5 0 0 1 7 8Zm.2 3.5v2H5.1v2.1h2.1v2h2.1v-2h2.1v-2.1H9.3v-2H7.2Zm8.8 1.2a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Zm3 3.2a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Z"
+            />
+          </svg>
+          <span>Games</span>
+        </button>
+        <button class="dock__item" type="button" data-nav="settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="m20 13.2 1.6 1.2-1.9 3.2-2-.8c-.5.4-1 .7-1.6.9l-.3 2.2h-3.7l-.3-2.2c-.6-.2-1.1-.5-1.6-.9l-2 .8-1.9-3.2L8 13.2a7 7 0 0 1 0-1.8l-1.7-1.2L8.2 7l2 .8c.5-.4 1-.7 1.6-.9l.3-2.2h3.7l.3 2.2c.6.2 1.1.5 1.6.9l2-.8 1.9 3.2-1.6 1.2a7 7 0 0 1 0 1.8ZM14 15.3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+            />
+          </svg>
+          <span>Settings</span>
+        </button>
+        <button class="dock__item" type="button" data-nav="about">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm-1-10h2v6h-2v-6Zm0-4h2v2h-2V7Z" />
+          </svg>
+          <span>About</span>
+        </button>
+      </nav>
     </main>
 
     <script type="module" src="/src/main.js"></script>
