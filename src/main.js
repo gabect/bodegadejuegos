@@ -1,22 +1,27 @@
+import '../style.css';
+
+const basePath = import.meta.env.BASE_URL;
+const gameUrl = (path) => `${basePath}${path}`;
+
 const games = {
   'jungle-snake': {
     title: 'Jungle Snake',
-    url: '/games/jungle-snake/',
+    url: gameUrl('games/jungle-snake/'),
     color: '#9be8bd',
   },
   'reflex-80s': {
     title: 'Reflex 80s',
-    url: '/games/reflex-80s/',
+    url: gameUrl('games/reflex-80s/'),
     color: '#ffc08a',
   },
   'pixel-galaxy-defender': {
     title: 'Pixel Galaxy Defender',
-    url: '/games/pixel-galaxy-defender/',
+    url: gameUrl('games/pixel-galaxy-defender/'),
     color: '#c8d7ff',
   },
   'frontline-echo': {
     title: 'Frontline Echo',
-    url: '/games/frontline-echo/',
+    url: gameUrl('games/frontline-echo/'),
     color: '#f2b9ff',
   },
 };
