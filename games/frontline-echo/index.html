@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frontline Echo - Retro Raycasting FPS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="cabinet" aria-label="Frontline Echo retro raycasting game">
+    <header class="marquee">
+      <p class="kicker">Fictional Arcade Trench Patrol • No real nations • No gore</p>
+      <h1>Frontline Echo</h1>
+      <p>Navigate endless foggy trench mazes, complete field objectives, and extract before the echo fades.</p>
+    </header>
+
+    <section class="screen-wrap" aria-label="Frontline Echo play screen">
+      <canvas id="gameCanvas" width="640" height="400">
+        Your browser needs HTML5 canvas support to play Frontline Echo.
+      </canvas>
+      <div id="overlay" class="overlay" aria-live="polite"></div>
+    </section>
+
+    <section class="briefing" aria-label="Controls and game details">
+      <div>
+        <h2>Controls</h2>
+        <p>WASD move • Mouse or ←/→ look • Click or Space fire • R reload • E interact • P pause</p>
+      </div>
+      <div>
+        <h2>Mission Loop</h2>
+        <p>Procedural trench maps, rising difficulty, limited ammo, medkits, ammo tins, and map fragments.</p>
+      </div>
+      <a href="../../index.html" class="back-link">Back to Arcade Hub</a>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
