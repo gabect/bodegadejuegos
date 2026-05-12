@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jungle Snake - 32-bit Inspired Arcade Survival</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="cabinet" aria-label="Jungle Snake arcade game">
+    <header class="marquee">
+      <p class="kicker">Lost 1990s Jungle Cabinet • One Player</p>
+      <h1>Jungle Snake</h1>
+      <p class="tagline">Grow larger, unlock bigger prey, and survive the lush CRT jungle maze.</p>
+    </header>
+
+    <section class="game-layout">
+      <aside class="hud-panel" aria-label="Game status">
+        <div class="hud-card score-card">
+          <span>Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="hud-card">
+          <span>High Score</span>
+          <strong id="highScore">0</strong>
+        </div>
+        <div class="hud-row">
+          <div class="hud-card">
+            <span>Level</span>
+            <strong id="level">1</strong>
+          </div>
+          <div class="hud-card">
+            <span>Length</span>
+            <strong id="length">4</strong>
+          </div>
+        </div>
+        <div class="hud-card unlocks-card">
+          <span>Unlocked Prey</span>
+          <strong id="unlockedPrey">Insects • Mice</strong>
+        </div>
+        <div id="warning" class="warning" role="status" aria-live="polite">Find safe prey to begin.</div>
+      </aside>
+
+      <section class="screen-shell" aria-label="Jungle Snake play screen">
+        <div class="screen-curve">
+          <canvas id="gameCanvas" width="640" height="640">
+            Your browser needs HTML5 canvas support to play Jungle Snake.
+          </canvas>
+          <div id="overlay" class="overlay">
+            <h2>Jungle Snake</h2>
+            <p>Arrow Keys / WASD or swipe to move</p>
+            <p>P pauses • Enter restarts</p>
+            <button id="startButton" type="button">Start Run</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="control-card" aria-label="Controls and rules">
+      <p><strong>Controls:</strong> Arrow Keys or WASD • Mobile swipe • P pause • Enter restart</p>
+      <p><strong>Rule:</strong> Warning-marked prey is too large. Bump it and you lose a tail segment and bounce away.</p>
+      <a href="../../index.html" class="back-link">Back to Arcade Hub</a>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
