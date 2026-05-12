@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reflex 80s - Neon Survival Paddle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="arcade-cabinet" aria-label="Reflex 80s arcade game">
+    <header class="neon-marquee">
+      <p class="kicker">One Player • Survival Reflex</p>
+      <h1>Reflex 80s</h1>
+      <p>Keep the neon ball alive. Obstacles appear, wheels spin up, and every second counts.</p>
+    </header>
+
+    <section class="screen-frame" aria-label="Reflex 80s play area">
+      <canvas id="gameCanvas" width="900" height="620">
+        Your browser needs HTML5 canvas support to play Reflex 80s.
+      </canvas>
+      <button id="restartButton" class="restart-button" type="button">Restart</button>
+    </section>
+
+    <section class="control-card" aria-label="Controls">
+      <p><strong>Controls:</strong> Arrow Keys or A/D move • Drag/touch the screen on mobile • P pauses • Enter restarts after Game Over</p>
+      <a href="../../index.html" class="back-link">Back to Arcade Hub</a>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
