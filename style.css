@@ -33,7 +33,9 @@ body {
     linear-gradient(145deg, #0a100f 0%, #070a0a 48%, #0d0b09 100%);
 }
 
-body::before {
+body::before,
+body::after,
+.checker-depth {
   content: "";
   position: fixed;
   inset: 0;
@@ -47,9 +49,17 @@ body::before {
   transition: transform 180ms ease-out;
 }
 
+body::before {
+  inset: -8vh -8vw auto;
+  height: 58vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 238, 190, 0.22), transparent 54%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 70%);
+  transform: translate3d(calc(var(--parallax-x) * -8px), calc(var(--parallax-y) * -5px), 0);
+  z-index: 0;
+}
+
 body::after {
-  content: "";
-  position: fixed;
   inset: 0;
   z-index: -1;
   background: radial-gradient(ellipse at center, transparent 46%, rgba(0, 0, 0, 0.48) 100%);
