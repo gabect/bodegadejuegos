@@ -29,13 +29,15 @@ const games = {
 const clock = document.querySelector('[data-clock]');
 const navButtons = document.querySelectorAll('[data-nav]');
 const views = document.querySelectorAll('[data-view]');
-const gameApps = document.querySelectorAll('[data-game]');
+const launchButtons = document.querySelectorAll('[data-game]');
+const gameApps = document.querySelectorAll('.game-app[data-game]');
 const gameWindow = document.querySelector('[data-window]');
 const gameFrame = document.querySelector('[data-game-frame]');
 const windowTitle = document.querySelector('[data-window-title]');
 const windowIcon = document.querySelector('[data-window-icon]');
 const closeButtons = document.querySelectorAll('[data-close-window]');
 const fullscreenButton = document.querySelector('[data-fullscreen]');
+const root = document.documentElement;
 
 const updateClock = () => {
   if (!clock) return;
@@ -121,9 +123,11 @@ gameApps.forEach((app) => {
     gameApps.forEach((candidate) => candidate.classList.remove('is-focused'));
     app.classList.add('is-focused');
   });
+});
 
-  app.addEventListener('click', () => {
-    openGameWindow(app.dataset.game);
+launchButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    openGameWindow(button.dataset.game);
   });
 });
 
@@ -138,3 +142,13 @@ document.addEventListener('keydown', (event) => {
     closeGameWindow();
   }
 });
+
+const updateParallax = (event) => {
+  const x = (event.clientX / window.innerWidth - 0.5) * 24;
+  const y = (event.clientY / window.innerHeight - 0.5) * 24;
+
+  root.style.setProperty('--parallax-x', `${x.toFixed(2)}px`);
+  root.style.setProperty('--parallax-y', `${y.toFixed(2)}px`);
+};
+
+window.addEventListener('pointermove', updateParallax, { passive: true });
