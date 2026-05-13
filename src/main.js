@@ -7,22 +7,22 @@ const games = {
   'jungle-snake': {
     title: 'Jungle Snake',
     url: gameUrl('games/jungle-snake/'),
-    color: '#9be8bd',
+    color: '#39ff6a',
   },
   'reflex-80s': {
     title: 'Reflex 80s',
     url: gameUrl('games/reflex-80s/'),
-    color: '#ffc08a',
+    color: '#ffd83d',
   },
   'pixel-galaxy-defender': {
     title: 'Pixel Galaxy Defender',
     url: gameUrl('games/pixel-galaxy-defender/'),
-    color: '#c8d7ff',
+    color: '#3edbff',
   },
   'frontline-echo': {
     title: 'Frontline Echo',
     url: gameUrl('games/frontline-echo/'),
-    color: '#f2b9ff',
+    color: '#8d969b',
   },
 };
 
