@@ -1,24 +1,22 @@
-import '../style.css';
-
 const games = {
   'jungle-snake': {
     title: 'Jungle Snake',
-    url: `${import.meta.env.BASE_URL}games/jungle-snake/`,
+    url: './games/jungle-snake/',
     color: '#39ff6a',
   },
   'reflex-80s': {
     title: 'Reflex 80s',
-    url: `${import.meta.env.BASE_URL}games/reflex-80s/`,
+    url: './games/reflex-80s/',
     color: '#ffd83d',
   },
   'pixel-galaxy-defender': {
     title: 'Pixel Galaxy Defender',
-    url: `${import.meta.env.BASE_URL}games/pixel-galaxy-defender/`,
+    url: './games/pixel-galaxy-defender/',
     color: '#3edbff',
   },
   'frontline-echo': {
     title: 'Frontline Echo',
-    url: `${import.meta.env.BASE_URL}games/frontline-echo/`,
+    url: './games/frontline-echo/',
     color: '#8d969b',
   },
 };
