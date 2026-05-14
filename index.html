@@ -60,15 +60,19 @@
         </div>
       </section>
 
-      <section class="game-window" aria-label="Game window" aria-hidden="true" data-window>
-        <div class="game-toolbar">
-          <button class="toolbar-button" type="button" data-home>Home</button>
-          <button class="toolbar-button toolbar-button--restart" type="button" data-restart>
-            Restart
-          </button>
-        </div>
-        <div class="game-frame-wrap">
-          <iframe title="Arcade Jungle game window" data-game-frame></iframe>
+      <section class="game-view" aria-label="Game view" aria-hidden="true" data-window>
+        <div class="game-console">
+          <div class="game-toolbar" aria-label="Game controls">
+            <button class="toolbar-button" type="button" data-home>Home</button>
+            <button class="toolbar-button toolbar-button--restart" type="button" data-restart>
+              Restart
+            </button>
+          </div>
+          <div class="game-console__body">
+            <div class="game-screen">
+              <iframe title="Arcade Jungle game window" data-game-frame></iframe>
+            </div>
+          </div>
         </div>
       </section>
     </main>
