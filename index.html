@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Arcade Jungle es una bodega de juegos 16-bit con colores neón, botones pixelados y gabinetes listos para jugar online."
+      content="Arcade Jungle: elige y juega cuatro arcades pixelados desde una pantalla simple y colorida."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,191 +14,65 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./style.css" />
-    <title>Arcade Jungle | 16-Bit Neon Arcade</title>
+    <title>Arcade Jungle</title>
   </head>
   <body>
-    <div class="parallax-stage" aria-hidden="true">
-      <div class="parallax-image"></div>
-      <div class="parallax-depth parallax-depth--grid"></div>
-      <div class="parallax-depth parallax-depth--vignette"></div>
-    </div>
+    <div class="pixel-bg" aria-hidden="true"></div>
 
-    <main class="landing-shell" aria-label="Arcade Jungle landing page">
-      <header class="topbar" aria-label="Barra principal">
-        <a class="brand" href="#home" aria-label="Arcade Jungle Home" data-nav="home">
-          <span class="brand__mark" aria-hidden="true">
-            <span class="brand__sprite">AJ</span>
-          </span>
-          <span class="brand__text">
-            <strong>Arcade Jungle</strong>
-            <small>16-Bit Playroom</small>
-          </span>
-        </a>
+    <main class="shell" aria-label="Arcade Jungle game menu">
+      <section id="home" class="home-screen" aria-labelledby="site-title">
+        <header class="home-header">
+          <span class="brand-badge" aria-hidden="true">AJ</span>
+          <div>
+            <h1 id="site-title">Arcade Jungle</h1>
+            <p>Choose a game</p>
+          </div>
+        </header>
 
-        <nav class="topnav" aria-label="Navegación de landing">
-          <button class="topnav__item is-active" type="button" data-nav="home">Home</button>
-          <button class="topnav__item" type="button" data-nav="games">Games</button>
-          <button class="topnav__item" type="button" data-nav="settings">Room</button>
-          <button class="topnav__item" type="button" data-nav="about">About</button>
-        </nav>
+        <div class="game-grid" aria-label="Game selection">
+          <button class="game-card game-card--snake" type="button" data-game="jungle-snake">
+            <span class="game-card__number">01</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Jungle Snake</span>
+          </button>
 
-        <div class="system-status" aria-label="Estado del sistema">
-          <time class="system-clock" datetime="00:00" data-clock>00:00</time>
-          <span class="status-led" aria-hidden="true"></span>
-          <button class="icon-button" type="button" aria-label="Abrir ajustes" data-nav="settings">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="m20 13.2 1.6 1.2-1.9 3.2-2-.8c-.5.4-1 .7-1.6.9l-.3 2.2h-3.7l-.3-2.2c-.6-.2-1.1-.5-1.6-.9l-2 .8-1.9-3.2L8 13.2a7 7 0 0 1 0-1.8l-1.7-1.2L8.2 7l2 .8c.5-.4 1-.7 1.6-.9l.3-2.2h3.7l.3 2.2c.6.2 1.1.5 1.6.9l2-.8 1.9 3.2-1.6 1.2a7 7 0 0 1 0 1.8ZM14 15.3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-              />
-            </svg>
+          <button class="game-card game-card--reflex" type="button" data-game="reflex-80s">
+            <span class="game-card__number">02</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Reflex 80s</span>
+          </button>
+
+          <button
+            class="game-card game-card--galaxy"
+            type="button"
+            data-game="pixel-galaxy-defender"
+          >
+            <span class="game-card__number">03</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Pixel Galaxy Defender</span>
+          </button>
+
+          <button class="game-card game-card--frontline" type="button" data-game="frontline-echo">
+            <span class="game-card__number">04</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Frontline Echo</span>
           </button>
         </div>
-      </header>
+      </section>
 
-      <section id="home" class="hero" aria-labelledby="hero-title" data-view="home">
-        <div class="hero__copy panel panel--hero">
-          <p class="eyebrow">Player one ready</p>
-          <div class="hero__logo" role="img" aria-label="Arcade Jungle">Arcade<br />Jungle</div>
-          <h1 id="hero-title">Una bodega de juegos pixelada, brillante y lista para jugar.</h1>
-          <p class="hero__lead">
-            Un lobby 16-bit con energía cartoon, colores primarios neón y
-            acceso directo a cuatro gabinetes browser-native.
-          </p>
-
-          <div class="hero__actions" aria-label="Acciones principales">
-            <button class="primary-action" type="button" data-game="jungle-snake">
-              Start jungle run
+      <section class="game-view" aria-label="Game view" aria-hidden="true" data-window>
+        <div class="game-console">
+          <div class="game-toolbar" aria-label="Game controls">
+            <button class="toolbar-button" type="button" data-home>Home</button>
+            <button class="toolbar-button toolbar-button--restart" type="button" data-restart>
+              Restart
             </button>
-            <button class="secondary-action" type="button" data-nav="games">Pick a cabinet</button>
           </div>
-        </div>
-
-        <aside class="command-card panel" aria-label="Resumen del sistema">
-          <div class="command-card__header">
-            <span class="terminal-dot"></span>
-            <span>Pixel cabinet status</span>
-          </div>
-          <div class="metrics-grid">
-            <span>
-              <small>Mode</small>
-              <strong>1-UP</strong>
-            </span>
-            <span>
-              <small>Glow</small>
-              <strong>Neon</strong>
-            </span>
-            <span>
-              <small>Input</small>
-              <strong>Ready</strong>
-            </span>
-          </div>
-          <div class="marquee" aria-label="Mensaje de marquesina">
-            <span>Press start · neon jungle · primary colors · 16-bit fun</span>
-          </div>
-        </aside>
-      </section>
-
-      <section id="games" class="content-view" aria-labelledby="games-title" data-view="games" hidden>
-        <div class="section-heading">
-          <p class="eyebrow">World select</p>
-          <h2 id="games-title">Elige tu gabinete de poder.</h2>
-          <p>Cartuchos grandes, bordes pixel perfect y botones con energía de consola clásica.</p>
-        </div>
-
-        <div class="app-grid" aria-label="Aplicaciones de juego">
-          <button class="game-app is-focused" type="button" data-game="jungle-snake">
-            <span class="game-app__topline">01</span>
-            <span class="game-app__icon game-app__icon--snake" aria-hidden="true"></span>
-            <span class="game-app__title">Jungle Snake</span>
-            <span class="game-app__meta">Snake quest</span>
-          </button>
-
-          <button class="game-app" type="button" data-game="reflex-80s">
-            <span class="game-app__topline">02</span>
-            <span class="game-app__icon game-app__icon--reflex" aria-hidden="true"></span>
-            <span class="game-app__title">Reflex 80s</span>
-            <span class="game-app__meta">Turbo reflex</span>
-          </button>
-
-          <button class="game-app" type="button" data-game="pixel-galaxy-defender">
-            <span class="game-app__topline">03</span>
-            <span class="game-app__icon game-app__icon--galaxy" aria-hidden="true"></span>
-            <span class="game-app__title">Pixel Galaxy Defender</span>
-            <span class="game-app__meta">Star blaster</span>
-          </button>
-
-          <button class="game-app" type="button" data-game="frontline-echo">
-            <span class="game-app__topline">04</span>
-            <span class="game-app__icon game-app__icon--frontline" aria-hidden="true"></span>
-            <span class="game-app__title">Frontline Echo</span>
-            <span class="game-app__meta">Maze mission</span>
-          </button>
-        </div>
-      </section>
-
-      <section
-        id="settings"
-        class="content-view content-view--compact"
-        aria-labelledby="settings-title"
-        data-view="settings"
-        hidden
-      >
-        <div class="section-heading">
-          <p class="eyebrow">Palette lab</p>
-          <h2 id="settings-title">Colores básicos, bloques sólidos y brillo arcade.</h2>
-          <p>
-            La interfaz mezcla azul, rojo, amarillo y verde en paneles gruesos de 16 bits,
-            con sombras cuadradas y movimiento por pasos.
-          </p>
-        </div>
-        <div class="settings-grid">
-          <span><small>Base</small><strong>#101060</strong></span>
-          <span><small>Panels</small><strong>#1A6DFF</strong></span>
-          <span><small>Accent</small><strong>#FFE900</strong></span>
-        </div>
-      </section>
-
-      <section
-        id="about"
-        class="content-view content-view--compact"
-        aria-labelledby="about-title"
-        data-view="about"
-        hidden
-      >
-        <div class="section-heading">
-          <p class="eyebrow">About</p>
-          <h2 id="about-title">Cartoon arcade feel, web-app speed.</h2>
-          <p>
-            Arcade Jungle ahora funciona como una selección de mundos estilo 16-bit: logo grande,
-            fondo pixelado, botones primarios y estaciones claras para abrir cada juego sin fricción.
-          </p>
-        </div>
-      </section>
-
-      <section class="app-window" aria-label="Ventana de juego" aria-hidden="true" data-window>
-        <div class="window-chrome">
-          <button class="home-button" type="button" data-close-window>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M11.2 4.2 3.8 10c-.5.4-.8 1-.8 1.6v7.1c0 .7.6 1.3 1.3 1.3h4.2v-5.7h7V20h4.2c.7 0 1.3-.6 1.3-1.3v-7.1c0-.6-.3-1.2-.8-1.6l-7.4-5.8a1.3 1.3 0 0 0-1.6 0Z"
-              />
-            </svg>
-            Home
-          </button>
-          <div class="window-title">
-            <span data-window-icon></span>
-            <div>
-              <strong data-window-title>Game</strong>
-              <small>Cabinet session</small>
+          <div class="game-console__body">
+            <div class="game-screen">
+              <iframe title="Arcade Jungle game window" data-game-frame></iframe>
             </div>
           </div>
-          <div class="window-actions">
-            <button type="button" data-fullscreen>Fullscreen</button>
-            <button type="button" data-close-window aria-label="Cerrar juego">Close</button>
-          </div>
-        </div>
-        <div class="game-frame-wrap">
-          <iframe title="Arcade Jungle game window" data-game-frame></iframe>
         </div>
       </section>
     </main>
