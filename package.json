@@ -1,5 +1,5 @@
 {
-  "name": "bodega-de-juegos-adventure",
+  "name": "bodegadejuegos",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,11 +8,6 @@
     "build": "vite build",
     "lint": "eslint src --ext .js",
     "format": "prettier --write ."
-  },
-  "dependencies": {
-    "howler": "^2.2.4",
-    "phaser": "^3.90.0",
-    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "eslint": "^9.26.0",
