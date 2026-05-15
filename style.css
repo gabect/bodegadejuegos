@@ -15,12 +15,193 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: var(--page-bg);
-  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+  color: var(--ink);
+  text-decoration: none;
+  border: var(--border);
+  background: var(--paper);
+  box-shadow: 7px 7px 0 var(--ink);
+  cursor: pointer;
+  transition:
+    transform 120ms steps(2, end),
+    box-shadow 120ms steps(2, end),
+    filter 120ms steps(2, end);
 }
 
-body {
-  min-width: 320px;
+.game-card:hover,
+.game-card:focus-visible {
+  transform: translate(-4px, -4px);
+  box-shadow: 11px 11px 0 var(--ink);
+  filter: saturate(1.14);
+}
+
+.game-card--snake {
+  background: #b9ff8d;
+}
+.game-card--reflex {
+  background: #fff078;
+}
+.game-card--galaxy {
+  background: #a9f8ff;
+}
+.game-card--frontline {
+  background: #ffb3f8;
+}
+.game-card--climb {
+  background: #9dff9b;
+}
+.game-card--sniper {
+  background: #c7d5a3;
+}
+
+.game-card__number {
+  color: var(--red);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.game-card__icon {
+  position: relative;
+  display: block;
+  border: var(--border);
+  background: linear-gradient(#2539d8 0 50%, #3bdcff 50% 100%);
+  background-size: 100% 20px;
+  box-shadow: inset 0 0 0 5px rgba(255, 248, 220, 0.18);
+  image-rendering: pixelated;
+}
+
+.game-card__icon::before,
+.game-card__icon::after {
+  position: absolute;
+  content: '';
+}
+
+.game-card--snake .game-card__icon::before {
+  left: 18px;
+  top: 28px;
+  width: 30px;
+  height: 18px;
+  background: var(--green);
+  box-shadow:
+    22px 0 0 var(--green),
+    44px 0 0 var(--yellow),
+    66px 0 0 var(--green);
+}
+
+.game-card--reflex .game-card__icon::before {
+  inset: 18px;
+  border: 7px solid var(--yellow);
+}
+
+.game-card--reflex .game-card__icon::after {
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  background: var(--red);
+  transform: translate(-50%, -50%);
+}
+
+.game-card--galaxy .game-card__icon::before {
+  left: 50%;
+  bottom: 15px;
+  width: 24px;
+  height: 42px;
+  background: var(--cyan);
+  box-shadow:
+    -16px 18px 0 var(--cyan),
+    16px 18px 0 var(--cyan),
+    0 45px 0 var(--yellow);
+  transform: translateX(-50%);
+}
+
+.game-card--frontline .game-card__icon::before {
+  inset: 22px;
+  background: var(--red);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.game-card--frontline .game-card__icon::after {
+  left: 18px;
+  right: 18px;
+  top: 50%;
+  height: 7px;
+  background: var(--green);
+  transform: translateY(-50%);
+}
+
+.game-card--climb .game-card__icon {
+  background:
+    linear-gradient(transparent 0 62%, #17a957 62% 100%),
+    linear-gradient(#72ddff 0 48%, #8ef06a 48% 100%);
+}
+
+.game-card--climb .game-card__icon::before {
+  left: 14px;
+  right: 14px;
+  bottom: 15px;
+  height: 12px;
+  background: #8c6742;
+  box-shadow:
+    26px -18px 0 #9b5f2d,
+    70px -38px 0 #d9b778,
+    38px -58px 0 #16763d;
+}
+
+.game-card--climb .game-card__icon::after {
+  left: 50%;
+  bottom: 32px;
+  width: 18px;
+  height: 28px;
+  background: var(--orange);
+  box-shadow: 0 -16px 0 var(--yellow);
+  transform: translateX(-50%);
+}
+
+.game-card--sniper .game-card__icon {
+  background:
+    radial-gradient(circle at center, transparent 0 20px, var(--ink) 21px 24px, transparent 25px),
+    linear-gradient(90deg, transparent 0 48%, var(--green) 48% 52%, transparent 52%),
+    linear-gradient(transparent 0 48%, var(--green) 48% 52%, transparent 52%),
+    linear-gradient(#12391d 0 45%, #2a5d2c 45% 58%, #071a0b 58% 100%);
+}
+
+.game-card--sniper .game-card__icon::before {
+  left: 18px;
+  bottom: 14px;
+  width: 14px;
+  height: 36px;
+  background: #2f4b24;
+  box-shadow:
+    24px -12px 0 #1f5a2c,
+    56px 2px 0 #31441f,
+    86px -18px 0 #26351d;
+}
+
+.game-card--sniper .game-card__icon::after {
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border: 4px solid var(--yellow);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.game-card__title {
+  align-self: end;
+  color: var(--ink);
+  font-size: clamp(0.76rem, 1.15vw, 0.95rem);
+  line-height: 1.35;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.game-view {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
   min-height: 100vh;
 }
 

@@ -9,12 +9,16 @@ Live site target:
 ## Project structure
 
 ```text
-index.html        # Static HTML entry point with Phaser and GSAP CDN scripts
-style.css         # Full-page GitHub Pages game shell styles
-game.js           # Phaser game logic, procedural visuals, HUD, controls, mission state
-.nojekyll         # Keeps GitHub Pages from running Jekyll processing
-games/            # Previous static games retained in the repository
-src/              # Previous landing-page JavaScript retained for reference
+index.html                         # Static Arcade Jungle library entry point
+games/jungle-snake/                # Static Jungle Snake game
+games/reflex-80s/                  # Static Reflex 80s game
+games/pixel-galaxy-defender/       # Static Pixel Galaxy Defender game
+games/frontline-echo/              # Static Frontline Echo game
+games/climbing-jungle-escape/      # Static Climbing Jungle Escape game
+games/sniper-jungle-mission/       # Static Sniper: Jungle Mission game
+src/main.js                        # Plain browser JavaScript for the landing page
+style.css                          # Landing page styles
+.nojekyll                          # Keeps GitHub Pages from running Jekyll processing
 ```
 
 ## Gameplay
@@ -36,7 +40,21 @@ The root `index.html` loads only local project files plus the required CDN libra
 <script src="game.js"></script>
 ```
 
-This works directly from GitHub Pages with **Settings → Pages → Deploy from a branch → main / root**. No bundler, build output, or GitHub Action is required.
+`src/main.js` is plain browser JavaScript. It does not import CSS, does not use Vite environment variables, and opens the embedded game iframes with relative static paths:
+
+- `./games/jungle-snake/`
+- `./games/reflex-80s/`
+- `./games/pixel-galaxy-defender/`
+- `./games/frontline-echo/`
+- `./games/climbing-jungle-escape/`
+
+The Sniper: Jungle Mission card links directly to a separate page:
+
+- `./games/sniper-jungle-mission/`
+
+Those paths resolve correctly from:
+
+<https://gabect.github.io/bodegadejuegos/>
 
 ## Local development
 
@@ -57,3 +75,11 @@ node --check game.js
 npx eslint game.js
 npm run lint
 ```
+
+## GitHub Pages deployment
+
+Use this repository setting:
+
+**Repository Settings → Pages → Build and deployment → Source → Deploy from a branch → Branch: main / root**
+
+After pushing to `main`, GitHub Pages serves the files directly from the repository root. The landing page, iframe games, and separate-page games do not depend on GitHub Actions, Vite, `npm run build`, or `dist/`.

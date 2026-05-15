@@ -11,9 +11,81 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="game-shell">
-      <div id="game-container" aria-label="Sniper: Jungle Mission game canvas"></div>
-    </div>
+    <div class="pixel-bg" aria-hidden="true"></div>
+
+    <main class="shell" aria-label="Arcade Jungle game menu">
+      <section id="home" class="home-screen" aria-labelledby="site-title">
+        <header class="home-header">
+          <span class="brand-badge" aria-hidden="true">AJ</span>
+          <div>
+            <h1 id="site-title">Arcade Jungle</h1>
+            <p>Choose a game</p>
+          </div>
+        </header>
+
+        <div class="game-grid" aria-label="Game selection">
+          <button class="game-card game-card--snake" type="button" data-game="jungle-snake">
+            <span class="game-card__number">01</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Jungle Snake</span>
+          </button>
+
+          <button class="game-card game-card--reflex" type="button" data-game="reflex-80s">
+            <span class="game-card__number">02</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Reflex 80s</span>
+          </button>
+
+          <button
+            class="game-card game-card--galaxy"
+            type="button"
+            data-game="pixel-galaxy-defender"
+          >
+            <span class="game-card__number">03</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Pixel Galaxy Defender</span>
+          </button>
+
+          <button class="game-card game-card--frontline" type="button" data-game="frontline-echo">
+            <span class="game-card__number">04</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Frontline Echo</span>
+          </button>
+
+          <button
+            class="game-card game-card--climb"
+            type="button"
+            data-game="climbing-jungle-escape"
+          >
+            <span class="game-card__number">05</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Climbing Jungle Escape</span>
+          </button>
+
+          <a class="game-card game-card--sniper" href="./games/sniper-jungle-mission/">
+            <span class="game-card__number">06</span>
+            <span class="game-card__icon" aria-hidden="true"></span>
+            <span class="game-card__title">Sniper: Jungle Mission</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="game-view" aria-label="Game view" aria-hidden="true" data-window>
+        <div class="game-console">
+          <div class="game-toolbar" aria-label="Game controls">
+            <button class="toolbar-button" type="button" data-home>Home</button>
+            <button class="toolbar-button toolbar-button--restart" type="button" data-restart>
+              Restart
+            </button>
+          </div>
+          <div class="game-console__body">
+            <div class="game-screen">
+              <iframe title="Arcade Jungle game window" scrolling="no" data-game-frame></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
