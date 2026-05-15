@@ -1,6 +1,10 @@
 (() => {
   "use strict";
 
+  const isEmbedded = new URLSearchParams(window.location.search).has("embed");
+  document.documentElement.classList.toggle("embed", isEmbedded);
+  document.body.classList.toggle("embed", isEmbedded);
+
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
   const overlay = document.getElementById("overlay");
@@ -618,14 +622,19 @@
 
   restartButton.addEventListener("click", resetGame);
 
-  showOverlay(
-    "Frontline Echo Prototype",
-    [
-      "Small flat trench map. One red patrol enemy. Simple weapon. No mission loop.",
-      "Move with WASD. Look with mouse after clicking the screen, or use the left and right arrow keys.",
-      "Shoot with left click or Space. Reload with R. Defeat the patrol, then enter the green extraction zone."
-    ]
-  );
-  draw();
+  if (isEmbedded) {
+    resetGame();
+  } else {
+    showOverlay(
+      "Frontline Echo Prototype",
+      [
+        "Small flat trench map. One red patrol enemy. Simple weapon. No mission loop.",
+        "Move with WASD. Look with mouse after clicking the screen, or use the left and right arrow keys.",
+        "Shoot with left click or Space. Reload with R. Defeat the patrol, then enter the green extraction zone."
+      ]
+    );
+    draw();
+  }
+
   requestAnimationFrame(loop);
 })();

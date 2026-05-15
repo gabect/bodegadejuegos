@@ -1,3 +1,7 @@
+const isEmbedded = new URLSearchParams(window.location.search).has('embed');
+document.documentElement.classList.toggle('embed', isEmbedded);
+document.body.classList.toggle('embed', isEmbedded);
+
 // Reflex 80s
 // A one-player neon survival paddle game built with vanilla JavaScript.
 // Keep the ball alive for as long as possible while the arena gets meaner.

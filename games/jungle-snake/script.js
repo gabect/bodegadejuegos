@@ -1,3 +1,7 @@
+const isEmbedded = new URLSearchParams(window.location.search).has('embed');
+document.documentElement.classList.toggle('embed', isEmbedded);
+document.body.classList.toggle('embed', isEmbedded);
+
 // Jungle Snake
 // An original 32-bit-inspired jungle arcade snake-style game using only Canvas, CSS, and vanilla JavaScript.
 
@@ -706,5 +710,5 @@ canvas.addEventListener('touchend', (event) => {
 
 startButton.addEventListener('click', startRun);
 
-resetGame(false);
+resetGame(isEmbedded);
 requestAnimationFrame(gameLoop);
