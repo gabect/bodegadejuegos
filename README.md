@@ -9,11 +9,13 @@ This project is designed to work with **Settings → Pages → Deploy from a bra
 ## Project structure
 
 ```text
-index.html                         # Static HTML entry point
+index.html                         # Static Arcade Jungle library entry point
 games/jungle-snake/                # Static Jungle Snake game
 games/reflex-80s/                  # Static Reflex 80s game
 games/pixel-galaxy-defender/       # Static Pixel Galaxy Defender game
 games/frontline-echo/              # Static Frontline Echo game
+games/climbing-jungle-escape/      # Static Climbing Jungle Escape game
+games/sniper-jungle-mission/       # Static Sniper: Jungle Mission game
 src/main.js                        # Plain browser JavaScript for the landing page
 style.css                          # Landing page styles
 .nojekyll                          # Keeps GitHub Pages from running Jekyll processing
@@ -28,12 +30,17 @@ The root `index.html` loads the landing page assets directly from the branch:
 <script src="./src/main.js" defer></script>
 ```
 
-`src/main.js` is plain browser JavaScript. It does not import CSS, does not use Vite environment variables, and opens the game iframes with relative static paths:
+`src/main.js` is plain browser JavaScript. It does not import CSS, does not use Vite environment variables, and opens the embedded game iframes with relative static paths:
 
 - `./games/jungle-snake/`
 - `./games/reflex-80s/`
 - `./games/pixel-galaxy-defender/`
 - `./games/frontline-echo/`
+- `./games/climbing-jungle-escape/`
+
+The Sniper: Jungle Mission card links directly to a separate page:
+
+- `./games/sniper-jungle-mission/`
 
 Those paths resolve correctly from:
 
@@ -65,4 +72,4 @@ Use this repository setting:
 
 **Repository Settings → Pages → Build and deployment → Source → Deploy from a branch → Branch: main / root**
 
-After pushing to `main`, GitHub Pages serves the files directly from the repository root. The landing page and iframe games do not depend on GitHub Actions, Vite, `npm run build`, or `dist/`.
+After pushing to `main`, GitHub Pages serves the files directly from the repository root. The landing page, iframe games, and separate-page games do not depend on GitHub Actions, Vite, `npm run build`, or `dist/`.
