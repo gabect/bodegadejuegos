@@ -3,6 +3,7 @@ const games = {
   'reflex-80s': './games/reflex-80s/?embed=1',
   'pixel-galaxy-defender': './games/pixel-galaxy-defender/?embed=1',
   'frontline-echo': './games/frontline-echo/?embed=1',
+  'climbing-jungle-escape': './games/climbing-jungle-escape/?embed=1',
 };
 
 const launchButtons = document.querySelectorAll('[data-game]');

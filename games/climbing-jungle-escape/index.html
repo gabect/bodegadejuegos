@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Climbing Jungle Escape - Arcade Jungle</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a href="../../index.html" target="_top" class="home-button">Back to Home</a>
+    <main class="game-page" aria-label="Climbing Jungle Escape game">
+      <header class="game-header">
+        <p class="kicker">Arcade Jungle • Vertical climb</p>
+        <h1>Climbing Jungle Escape</h1>
+        <p class="tagline">
+          Leap through bright canopy ruins, grab fruit, and outrun the jungle floor.
+        </p>
+      </header>
+
+      <section class="game-layout">
+        <aside class="hud-panel" aria-label="Game status">
+          <div class="hud-row">
+            <div class="hud-card score-card">
+              <span>Score</span>
+              <strong id="score">0</strong>
+            </div>
+            <div class="hud-card">
+              <span>Best</span>
+              <strong id="bestScore">0</strong>
+            </div>
+          </div>
+          <div class="hud-row">
+            <div class="hud-card">
+              <span>Height</span>
+              <strong id="heightScore">0m</strong>
+            </div>
+            <div class="hud-card">
+              <span>Bonus</span>
+              <strong id="bonusScore">0</strong>
+            </div>
+          </div>
+          <div class="hud-card status-card">
+            <span>Power</span>
+            <strong id="powerStatus">Ready</strong>
+          </div>
+          <div class="hud-actions">
+            <button id="pauseButton" type="button">Pause</button>
+            <button id="restartButton" type="button">Restart</button>
+          </div>
+        </aside>
+
+        <section class="screen-shell" aria-label="Climbing Jungle Escape play screen">
+          <div class="screen-curve" id="screenShell">
+            <canvas id="gameCanvas" width="640" height="640">
+              Your browser needs HTML5 canvas support to play Climbing Jungle Escape.
+            </canvas>
+            <button id="miniPauseButton" class="mini-pause-button" type="button">Pause</button>
+            <div id="overlay" class="overlay">
+              <p class="overlay-kicker">Climb High</p>
+              <h2>Climbing Jungle Escape</h2>
+              <p>Move with ← → / A D. Jump with Space or W.</p>
+              <p>Dodge falling branches, rolling rocks, vines, and insects.</p>
+              <button id="startButton" type="button">Start Climb</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="control-card" aria-label="Controls and rules">
+        <p>
+          <strong>Controls:</strong> Arrow Keys / A D to move • Space / W to jump • P pauses • Enter
+          restarts
+        </p>
+        <p><strong>Mobile:</strong> Hold the on-screen direction buttons and tap Jump.</p>
+        <a href="../../index.html" target="_top" class="back-link">Back to Home</a>
+      </section>
+    </main>
+
+    <div class="touch-controls" aria-label="Mobile controls">
+      <button class="touch-button" type="button" data-touch="left" aria-label="Move left">◀</button>
+      <button
+        class="touch-button touch-button--jump"
+        type="button"
+        data-touch="jump"
+        aria-label="Jump"
+      >
+        Jump
+      </button>
+      <button class="touch-button" type="button" data-touch="right" aria-label="Move right">
+        ▶
+      </button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
