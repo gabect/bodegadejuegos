@@ -1,10 +1,10 @@
-# Bodega de Juegos
+# Sniper: Jungle Mission
 
-A simple static arcade landing page for the GitHub Pages site at:
+A static GitHub Pages HTML5 arcade game built with Phaser and procedural drawing. The player views the jungle only through a first-person sniper scope, tags five hidden enemies, and must finish the mission with six shots before the 60-second timer expires.
+
+Live site target:
 
 <https://gabect.github.io/bodegadejuegos/>
-
-This project is designed to work with **Settings → Pages → Deploy from a branch → main / root**. It does not require Vite, a build step, GitHub Actions, or a committed `dist/` directory.
 
 ## Project structure
 
@@ -21,13 +21,23 @@ style.css                          # Landing page styles
 .nojekyll                          # Keeps GitHub Pages from running Jekyll processing
 ```
 
+## Gameplay
+
+- Mission: tag 5 hidden hostiles in one procedural jungle scene.
+- Resources: 6 shots and 60 seconds.
+- Controls: move the mouse to aim, click to shoot.
+- View: first-person scope only; no weapon is displayed.
+- Visuals: all scenery, enemies, foliage, HUD, scope, and crosshair are generated with code. No external image assets are used.
+
 ## How it loads
 
-The root `index.html` loads the landing page assets directly from the branch:
+The root `index.html` loads only local project files plus the required CDN libraries:
 
 ```html
-<link rel="stylesheet" href="./style.css" />
-<script src="./src/main.js" defer></script>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="game.js"></script>
 ```
 
 `src/main.js` is plain browser JavaScript. It does not import CSS, does not use Vite environment variables, and opens the embedded game iframes with relative static paths:
@@ -48,7 +58,7 @@ Those paths resolve correctly from:
 
 ## Local development
 
-No build is required. Open `index.html` from a local static server rooted at this repository. For example:
+Open the repository through any static server:
 
 ```bash
 python3 -m http.server 4173
@@ -58,12 +68,12 @@ Then visit:
 
 <http://localhost:4173/>
 
-Optional formatting and linting tools remain available through npm:
+Optional checks:
 
 ```bash
-npm install
+node --check game.js
+npx eslint game.js
 npm run lint
-npm run format
 ```
 
 ## GitHub Pages deployment
