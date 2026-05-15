@@ -7,13 +7,30 @@
       name="description"
       content="Sniper: Jungle Mission is a procedural HTML5 arcade scope game built with Phaser for GitHub Pages."
     />
-    <title>Sniper: Jungle Mission</title>
+    <title>Sniper: Jungle Mission - Arcade Jungle</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="game-shell">
-      <div id="game-container" aria-label="Sniper: Jungle Mission game canvas"></div>
-    </div>
+    <main class="game-page" aria-label="Sniper: Jungle Mission game">
+      <nav class="top-control-bar" aria-label="Game controls">
+        <a href="../../" class="home-button">Home</a>
+        <button id="restartButton" class="restart-button" type="button">Restart</button>
+      </nav>
+
+      <header class="game-header">
+        <p class="kicker">Arcade Jungle • Instant play</p>
+        <h1>Sniper: Jungle Mission</h1>
+        <p>
+          Scan the canopy, steady your scope, and tag every hidden hostile before time runs out.
+        </p>
+      </header>
+
+      <section class="screen-wrap" aria-label="Sniper: Jungle Mission play screen">
+        <div class="screen-curve">
+          <div id="game-container" aria-label="Sniper: Jungle Mission game canvas"></div>
+        </div>
+      </section>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
