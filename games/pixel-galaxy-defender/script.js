@@ -1,3 +1,7 @@
+const isEmbedded = new URLSearchParams(window.location.search).has('embed');
+document.documentElement.classList.toggle('embed', isEmbedded);
+document.body.classList.toggle('embed', isEmbedded);
+
 // Pixel Galaxy Defender
 // A beginner-friendly canvas game inspired by classic arcade space shooters.
 // Everything is drawn with rectangles so students can edit the shapes easily.

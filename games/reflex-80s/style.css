@@ -342,3 +342,81 @@ canvas {
 
 @media (max-height: 680px) { canvas { max-height: calc(100vh - 230px); min-height: 220px; } }
 :root { --accent: #ffe900; --accent-2: #ff2351; --panel: #ff8a00; --panel-2: #7a35ff; }
+
+
+html.embed,
+html.embed body,
+body.embed {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body.embed {
+  display: grid;
+  padding: 0;
+  place-items: center;
+  background: var(--screen);
+}
+
+body.embed::before,
+body.embed::after { display: none; }
+
+body.embed .game-header,
+body.embed .home-button,
+body.embed .back-link,
+body.embed .control-card,
+body.embed .briefing,
+body.embed .hud-panel,
+body.embed .touch-controls,
+body.embed .restart-button { display: none !important; }
+
+body.embed .game-page,
+body.embed .game-layout,
+body.embed .screen-shell,
+body.embed .screen-wrap,
+body.embed .screen-frame,
+body.embed .screen-curve {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  place-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  gap: 0;
+  overflow: hidden;
+  border: 0;
+  background: var(--screen);
+  box-shadow: none;
+}
+
+body.embed .game-page::before,
+body.embed .game-header::after,
+body.embed .screen-shell::after,
+body.embed .screen-wrap::after,
+body.embed .screen-frame::after,
+body.embed .screen-curve::after { display: none; }
+
+body.embed canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border: 0;
+  box-shadow: none;
+}
+
+body.embed .overlay {
+  inset: 0;
+  border: 0;
+  box-shadow: none;
+}

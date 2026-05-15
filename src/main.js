@@ -1,8 +1,8 @@
 const games = {
-  'jungle-snake': './games/jungle-snake/',
-  'reflex-80s': './games/reflex-80s/',
-  'pixel-galaxy-defender': './games/pixel-galaxy-defender/',
-  'frontline-echo': './games/frontline-echo/',
+  'jungle-snake': './games/jungle-snake/?embed=1',
+  'reflex-80s': './games/reflex-80s/?embed=1',
+  'pixel-galaxy-defender': './games/pixel-galaxy-defender/?embed=1',
+  'frontline-echo': './games/frontline-echo/?embed=1',
 };
 
 const launchButtons = document.querySelectorAll('[data-game]');
