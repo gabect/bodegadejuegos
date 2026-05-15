@@ -31,6 +31,11 @@ const config = {
 
 new Phaser.Game(config);
 
+const restartButton = document.getElementById('restartButton');
+restartButton?.addEventListener('click', () => {
+  window.location.reload();
+});
+
 let world;
 let crosshair;
 let scopeMask;
