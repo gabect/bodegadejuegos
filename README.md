@@ -1,6 +1,6 @@
-# Sniper: Jungle Mission
+# Arcade Jungle
 
-A static GitHub Pages HTML5 arcade game built with Phaser and procedural drawing. The player views the jungle only through a first-person sniper scope, tags five hidden enemies, and must finish the mission with six shots before the 60-second timer expires.
+A static GitHub Pages arcade library. The root homepage is a game selection menu, and each individual game lives in its own folder under `games/`.
 
 Live site target:
 
@@ -9,38 +9,28 @@ Live site target:
 ## Project structure
 
 ```text
-index.html                         # Static Arcade Jungle library entry point
+index.html                         # Static Arcade Jungle library homepage
 games/jungle-snake/                # Static Jungle Snake game
 games/reflex-80s/                  # Static Reflex 80s game
 games/pixel-galaxy-defender/       # Static Pixel Galaxy Defender game
 games/frontline-echo/              # Static Frontline Echo game
 games/climbing-jungle-escape/      # Static Climbing Jungle Escape game
 games/sniper-jungle-mission/       # Static Sniper: Jungle Mission game
-src/main.js                        # Plain browser JavaScript for the landing page
+src/main.js                        # Plain browser JavaScript for embedded landing-page games
 style.css                          # Landing page styles
 .nojekyll                          # Keeps GitHub Pages from running Jekyll processing
 ```
 
-## Gameplay
+## Homepage/game separation
 
-- Mission: tag 5 hidden hostiles in one procedural jungle scene.
-- Resources: 6 shots and 60 seconds.
-- Controls: move the mouse to aim, click to shoot.
-- View: first-person scope only; no weapon is displayed.
-- Visuals: all scenery, enemies, foliage, HUD, scope, and crosshair are generated with code. No external image assets are used.
-
-## How it loads
-
-The root `index.html` loads only local project files plus the required CDN libraries:
+The root `index.html` is only the Arcade Jungle library homepage. It loads the landing page assets directly from the branch:
 
 ```html
-<link rel="stylesheet" href="style.css" />
-<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="game.js"></script>
+<link rel="stylesheet" href="./style.css" />
+<script src="./src/main.js" defer></script>
 ```
 
-`src/main.js` is plain browser JavaScript. It does not import CSS, does not use Vite environment variables, and opens the embedded game iframes with relative static paths:
+The root homepage does not load Phaser, GSAP, a game canvas, or any individual game script. `src/main.js` is plain browser JavaScript. It does not import CSS, does not use Vite environment variables, and opens the embedded game iframes with relative static paths:
 
 - `./games/jungle-snake/`
 - `./games/reflex-80s/`
@@ -52,9 +42,19 @@ The Sniper: Jungle Mission card links directly to a separate page:
 
 - `./games/sniper-jungle-mission/`
 
+Only `games/sniper-jungle-mission/index.html` imports Phaser, GSAP, and `games/sniper-jungle-mission/game.js`.
+
 Those paths resolve correctly from:
 
 <https://gabect.github.io/bodegadejuegos/>
+
+## Sniper: Jungle Mission gameplay
+
+- Mission: tag 5 hidden hostiles in one procedural jungle scene.
+- Resources: 6 shots and 60 seconds.
+- Controls: move the mouse to aim, click to shoot.
+- View: first-person scope only; no weapon is displayed.
+- Visuals: all scenery, enemies, foliage, HUD, scope, and crosshair are generated with code. No external image assets are used.
 
 ## Local development
 
@@ -71,8 +71,8 @@ Then visit:
 Optional checks:
 
 ```bash
-node --check game.js
-npx eslint game.js
+node --check src/main.js
+node --check games/sniper-jungle-mission/game.js
 npm run lint
 ```
 
