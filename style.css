@@ -140,7 +140,7 @@ h1 {
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: clamp(12px, 2vw, 18px);
 }
 
@@ -182,6 +182,9 @@ h1 {
 }
 .game-card--frontline {
   background: #ffb3f8;
+}
+.game-card--climb {
+  background: #9dff9b;
 }
 
 .game-card__number {
@@ -258,6 +261,34 @@ h1 {
   height: 7px;
   background: var(--green);
   transform: translateY(-50%);
+}
+
+.game-card--climb .game-card__icon {
+  background:
+    linear-gradient(transparent 0 62%, #17a957 62% 100%),
+    linear-gradient(#72ddff 0 48%, #8ef06a 48% 100%);
+}
+
+.game-card--climb .game-card__icon::before {
+  left: 14px;
+  right: 14px;
+  bottom: 15px;
+  height: 12px;
+  background: #8c6742;
+  box-shadow:
+    26px -18px 0 #9b5f2d,
+    70px -38px 0 #d9b778,
+    38px -58px 0 #16763d;
+}
+
+.game-card--climb .game-card__icon::after {
+  left: 50%;
+  bottom: 32px;
+  width: 18px;
+  height: 28px;
+  background: var(--orange);
+  box-shadow: 0 -16px 0 var(--yellow);
+  transform: translateX(-50%);
 }
 
 .game-card__title {
