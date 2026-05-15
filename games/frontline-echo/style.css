@@ -418,5 +418,11 @@ body.embed canvas {
 body.embed .overlay {
   inset: 0;
   border: 0;
+  background: transparent;
   box-shadow: none;
+}
+
+body.embed .overlay.hidden,
+body.embed .overlay:not(.is-visible) {
+  display: none !important;
 }
